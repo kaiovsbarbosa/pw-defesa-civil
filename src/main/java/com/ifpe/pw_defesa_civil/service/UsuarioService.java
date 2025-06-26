@@ -1,6 +1,7 @@
 package com.ifpe.pw_defesa_civil.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -25,11 +26,24 @@ public class UsuarioService {
         this.usuarioRepository = usuarioRepository;
     }
 
-    @Transactional()
+    @Transactional
     public List<Usuario> findAll() {
         return usuarioRepository.findAll();
-        // return usuarioRepository.findAll().stream()
-        //         .map(UsuarioDTO::new)
-        //         .toList();
+    }
+
+    @Transactional
+    public Optional<Usuario> findById(Long id) {
+        return usuarioRepository.findById(id);
+    }
+
+    @Transactional
+    public Usuario save(Usuario usuario) {
+        // Aqui você pode adicionar validações, checar existência de perfil/equipe, etc.
+        return usuarioRepository.save(usuario);
+    }
+
+    @Transactional
+    public void deleteById(Long id) {
+        usuarioRepository.deleteById(id);
     }
 }

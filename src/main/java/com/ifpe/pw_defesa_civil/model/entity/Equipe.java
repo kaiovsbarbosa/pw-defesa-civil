@@ -3,6 +3,7 @@ package com.ifpe.pw_defesa_civil.model.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -23,6 +24,7 @@ public class Equipe {
     @Column(name = "nome_equipe", nullable = false, length = 255, unique = true)
     private String nomeEquipe;
 
+    @JsonBackReference
     @ManyToMany(mappedBy = "equipes", fetch = FetchType.LAZY)
     private List<Usuario> membros = new ArrayList<>();
 
