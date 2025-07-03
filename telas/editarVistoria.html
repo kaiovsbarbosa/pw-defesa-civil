@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Vistoria</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <link rel="stylesheet" href="editarVistoria.css">
+    <script src="editarVistoria.js" defer></script>
+</head>
+
+<body>
+
+    <div class="container text-left my-5">
+        <p class="display-6">Edição de Vistoria</p>
+    </div>
+
+    <div class="container mt-5">
+        <form>
+            <div class="mb-3">
+                <label for="tipo" class="form-label">Tipo</label>
+                <input type="text" class="form-control" id="tipo" value="Vistoria" disabled readonly>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="dataInicio" class="form-label">Data Início</label>
+                    <input type="date" class="form-control" id="dataInicio">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="dataFim" class="form-label">Data Fim</label>
+                    <input type="date" class="form-control" id="dataFim">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="status" class="form-label">Status</label>
+                <select class="form-select" id="status">
+                    <option selected>Selecione um status</option>
+                    <option value="em-andamento">Em andamento</option>
+                    <option value="finalizado">Finalizado</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="descricaoLocalizacao" class="form-label">Descrição da Localização</label>
+                <textarea class="form-control no-resize" id="descricaoLocalizacao" rows="4"></textarea>
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-primary">Salvar</button>
+                <a href="listaVistoria.html" class="btn btn-danger" role="button">Voltar</a>
+            </div>
+
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
