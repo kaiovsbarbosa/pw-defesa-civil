@@ -1,51 +1,67 @@
-let monitoramentos = [
-    { id: 1, status: 'Em Andamento', descricao: 'Descrição relacionada ao Monitoramento', dataInicio: '20/11/2023', dataFim: '' }];
+const api_url = '';
 
-let monitoramentoSelecionado = null;
+async function carregarMonitoramentos() {
+    try {
+        const resposta = await fetch(api_url);
+        if (!resposta.ok) throw new Error('Erro ao buscar monitoramento');
+        const monitoramentos = await resposta.json();
+        renderizarTabela(monitoramentos);
+    } catch (erro) {
+        console.error('Erro ao carregar monitoramentos:', erro);
+        alert('Erro ao carregar monitoramentos. Tente novamente mais tarde.');
+    }
+}
 
-
-function renderizarTabela() {
+function renderizarTabela(monitoramentos) {
     const corpoTabela = document.getElementById('tabela-clientes-corpo');
     corpoTabela.innerHTML = '';
 
-    if (monitoramentos.length === 0) {
+    if (!monitoramentos || monitoramentos.length === 0) {
         corpoTabela.innerHTML = '<tr><td colspan="5" class="text-center">Nenhum Monitoramento encontrado.</td></tr>';
         return;
     }
 
-    monitoramentos.forEach(monitoramento => {
+    vistorias.forEach(monitoramento => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
-                    <td>${monitoramento.status}</td>
-                    <td>${monitoramento.descricao}</td>
-                    <td>${monitoramento.dataInicio}</td>
-                    <td>${monitoramento.dataFim}</td>
-                    <td class="text-center">
-                        <a href="editarMonitoramento.html?id=${monitoramento.id}" class="btn btn-primary btn-sm" title="Editar">
-                            <i class="fa fa-pencil"></i>
-                        </a>
-                        <button class="btn btn-danger btn-sm ms-2" title="Deletar" onclick="preparaDelecao(${monitoramento.id})">
-                            <i class="fa fa-trash"></i>
-                        </button>
-                    </td>
-                `;
+            <td>${monitoramento.status}</td>
+            <td>${monitoramento.descricao}</td>
+            <td>${monitoramento.dataInicio}</td>
+            <td>${monitoramento.dataFim || ''}</td>
+            <td class="text-center">
+                <button class="btn btn-primary btn-sm" onclick="editarVistoria(${monitoramento.id})" title="Editar">
+                    <i class="fa fa-pencil"></i>
+                </button>
+                <button class="btn btn-danger btn-sm ms-2" onclick="excluirVistoria(${monitoramento.id})" title="Deletar">
+                    <i class="fa fa-trash"></i>
+                </button>
+            </td>
+        `;
         corpoTabela.appendChild(tr);
     });
 }
 
-function preparaDelecao(monitoramentoId) {
-    const confirmou = window.confirm("Tem certeza que deseja excluir este Monitoramento?");
-    if (confirmou) {
-        const indexParaDeletar = monitoramentos.findIndex(v => v.id === monitoramentoId);
-        if (indexParaDeletar > -1) {
-            monitoramentos.splice(indexParaDeletar, 1);
-        }
-        renderizarTabela();
-        alert("Monitoramento excluído com sucesso!");
-    }
+
+function editarMonitoramento(id) {
+    window.location.href = `editarMonitoramento.html?id=${id}`;
 }
 
 
-document.addEventListener('DOMContentLoaded', () => {
-    renderizarTabela();
-});
+async function excluirMonitoramento(id) {
+    const confirmou = confirm("Tem certeza que deseja excluir este monitoramento?");
+    if (!confirmou) return;
+
+    try {
+        const resposta = await fetch(`${api_url}/${id}`, {
+            method: 'DELETE'
+        });
+        if (!resposta.ok) throw new Error('Erro ao excluir monitoramento');
+        alert('Monitoramento excluído com sucesso!');
+        carregarMonitoramentos();
+    } catch (erro) {
+        console.error('Erro ao excluir monitoramento:', erro);
+        alert('Erro ao excluir o monitoramento. Tente novamente.');
+    }
+}
+
+document.addEventListener('DOMContentLoaded', carregarMonitoramentos);
