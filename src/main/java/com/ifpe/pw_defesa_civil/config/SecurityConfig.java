@@ -30,28 +30,12 @@ public class SecurityConfig {
         this.filtroTokenAcesso = filtroTokenAcesso;
     }
 
-
-    /*
-     *
-     * configuração atual funciona apenas com o banco H2
-    */
     @Bean
     public SecurityFilterChain filtrosSeguranca(HttpSecurity http) throws Exception {
         return http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                // .csrf(csrf -> csrf.disable())
-                .csrf(csrf -> csrf.ignoringRequestMatchers(
-                    PathRequest.toH2Console(),
-                    new AntPathRequestMatcher("/login")
-                ))
-                // .authorizeHttpRequests(
-                //         req -> {
-                //             req.requestMatchers("/h2-console","/login", "/refresh-token").permitAll();
-                //             req.anyRequest().authenticated();
-                //         }
-                // )
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                    // .requestMatchers(PathRequest.toH2Console()).permitAll()
                     .requestMatchers("/login", "/refresh-token").permitAll()
                     .anyRequest().authenticated())
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))

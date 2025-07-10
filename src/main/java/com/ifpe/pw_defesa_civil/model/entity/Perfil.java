@@ -40,7 +40,7 @@ public class Perfil {
     }
 
     public enum TipoPerfil {
-        Administrador, Coordenador, Colaborador
+        Administrador, Operador, Visualizador
     }
 
     public Long getId() {
