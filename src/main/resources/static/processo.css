@@ -9,7 +9,7 @@
 }
 
 body {
-    background-color: #f8f9fa; 
+    background-color: #f8f9fa;
 }
 
 .navbar {
@@ -17,7 +17,7 @@ body {
 }
 
 .navbar .navbar-brand {
-    color: #F7941D !important; 
+    color: #F7941D !important;
     font-weight: bold;
 }
 
@@ -50,6 +50,6 @@ h1.display-4 {
 }
 
 .card-title {
-    color: #F7941D;
+    color: #272F68;
     font-weight: bold;
 }

@@ -4,24 +4,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Monitoramento</title>
+    <title>Editar Processo</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
-    <link rel="stylesheet" href="editarMonitoramento.css">
-    <script src="editarMonitoramento.js" defer></script>
+    <link rel="stylesheet" href="editarProcesso.css">
+    <script src="editarProcesso.js" defer></script>
 </head>
 
 <body>
 
     <div class="container text-left my-5">
-        <p class="display-6">Edição de Monitoramento</p>
+        <p class="display-6">Edição de Processo</p>
     </div>
 
-    <div class="container mt-5">
+<div class="container mt-5">
         <form>
             <div class="mb-3">
                 <label for="tipo" class="form-label">Tipo</label>
-                <input type="text" class="form-control" id="tipo" value="Monitoramento" disabled readonly>
+                <select class="form-select" id="tipo">
+                    <option selected>Selecione o tipo de Processo</option>
+                    <option value="VISTORIA">Vistoria</option>
+                    <option value="MONITORAMENTO">Monitoramento</option>
+                </select>
             </div>
             <div class="row">
                 <div class="col-md-6 mb-3">
@@ -37,8 +41,8 @@
                 <label for="status" class="form-label">Status</label>
                 <select class="form-select" id="status">
                     <option selected>Selecione um status</option>
-                    <option value="em-andamento">Em andamento</option>
-                    <option value="finalizado">Finalizado</option>
+                    <option value="EM_ANDAMENTO">Em andamento</option>
+                    <option value="FINALIZADO">Finalizado</option>
                 </select>
             </div>
             <div class="mb-3">
@@ -46,9 +50,14 @@
                 <textarea class="form-control no-resize" id="descricaoLocalizacao" rows="4"></textarea>
             </div>
 
+            <div class="mb-3">
+                <label for="descricao" class="form-label">Descrição</label>
+                <textarea class="form-control no-resize" id="descricao" rows="4"></textarea>
+            </div>
+
             <div class="d-flex justify-content-between">
-                <button type="submit" class="btn btn-primary">Salvar</button>
-                <a href="listaMonitoramento.html" class="btn btn-danger" role="button">Voltar</a>
+                <button type="submit" class="btn btn-primary">Enviar</button>
+                <a href="processo.html" class="btn btn-danger" role="button">Voltar</a>
             </div>
 
         </form>
