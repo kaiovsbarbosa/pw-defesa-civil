@@ -2,6 +2,12 @@ package com.ifpe.pw_defesa_civil.model.entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collection;
+import java.util.Collections;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -19,7 +25,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "usuarios")
-public class Usuario {
+public class Usuario implements UserDetails{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,7 +40,7 @@ public class Usuario {
     @Column(name = "senha_hash", nullable = false, length = 255)
     private String senhaHash;
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "perfil_id", nullable = false)
     @JsonBackReference
     private Perfil perfil;
@@ -106,6 +112,19 @@ public class Usuario {
 
     public void setEquipes(List<Equipe> equipes) {
         this.equipes = equipes;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.singleton(new SimpleGrantedAuthority("ROLE_"+perfil.getTipo().name()));
+    }
+    @Override
+    public String getPassword() {
+        return this.senhaHash;
+    }
+    @Override
+    public String getUsername() {
+        return this.email;
     }
 
 }

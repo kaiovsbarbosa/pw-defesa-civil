@@ -3,6 +3,9 @@ package com.ifpe.pw_defesa_civil.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.ifpe.pw_defesa_civil.model.entity.Usuario;
@@ -13,7 +16,7 @@ import com.ifpe.pw_defesa_civil.repository.UsuarioRepository;
 import jakarta.transaction.Transactional;
 
 @Service
-public class UsuarioService {
+public class UsuarioService implements UserDetailsService{
     
     private final UsuarioRepository usuarioRepository;
 
@@ -45,5 +48,11 @@ public class UsuarioService {
     @Transactional
     public void deleteById(Long id) {
         usuarioRepository.deleteById(id);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return usuarioRepository.findByEmailIgnoreCase(username)
+                .orElseThrow(() -> new UsernameNotFoundException("O usuário não foi encontrado!"));
     }
 }
