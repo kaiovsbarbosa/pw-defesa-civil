@@ -15,13 +15,14 @@ document.addEventListener('DOMContentLoaded', async function () {
         if (!resposta.ok) throw new Error('Erro ao carregar o processo');
         const processo = await resposta.json();
 
-        document.getElementById('tipo').value = processo.status;
-        document.getElementById('dataInicio').value = processo.dataInicio;
-        document.getElementById('dataFim').value = processo.dataFim;
+        document.getElementById('tipo').value = processo.tipo;
+        document.getElementById('dataInicio').value = processo.dataInicio?.split('T')[0];
+        document.getElementById('dataFim').value = processo.dataFim?.split('T')[0];
         document.getElementById('status').value = processo.status;
-        document.getElementById('descricaoLocalizacao').value = processo.descricaoLocalizacao;
-        document.getElementById('descricao').value = processo.descricao;
+        document.getElementById('descricaoLocalizacao').value =processo.localizacaoDescricao;
+        document.getElementById('descricao').value = processo.descricao ?? '';
 
+        console.log('Processo retornado:', processo);
     } catch (erro) {
         console.error('Erro ao carregar o processo:', erro);
         alert('Erro ao carregar dados do processo.');
@@ -32,13 +33,19 @@ document.addEventListener('DOMContentLoaded', async function () {
     form.addEventListener('submit', async function (event) {
         event.preventDefault();
 
+        const formatDateToLocalDateTime = (dateStr) => {
+            return dateStr ? `${dateStr}T00:00:00` : null;
+        };
+
         const dadosAtualizados = {
             tipo: document.getElementById('tipo').value,
-            dataInicio: document.getElementById('dataInicio').value,
-            dataFim: document.getElementById('dataFim').value,
+            dataInicio: formatDateToLocalDateTime(document.getElementById('dataInicio').value),
+            dataFim: formatDateToLocalDateTime(document.getElementById('dataFim').value),
             status: document.getElementById('status').value,
             descricaoLocalizacao: document.getElementById('descricaoLocalizacao').value,
-            descricao: document.getElementById('descricao').value
+            descricao: document.getElementById('descricao').value,
+            criadoPor: null,
+            equipe: null
         };
 
         try {
@@ -52,11 +59,12 @@ document.addEventListener('DOMContentLoaded', async function () {
 
             if (!resposta.ok) throw new Error('Erro ao atualizar o processo');
             alert('Processo atualizado com sucesso!');
-            window.location.href = 'listaProcesso.html';
+            window.location.href = 'listaProcessos.html';
         } catch (erro) {
             console.error('Erro ao atualizar o processo:', erro);
             alert('Erro ao salvar alterações. Tente novamente.');
         }
     });
 });
+
 

@@ -33,13 +33,13 @@ public class Processo {
     private String localizacaoDescricao;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "criado_por_usuario_id", nullable = false)
-    @JsonBackReference
+    @JoinColumn(name = "criado_por_usuario_id", nullable = true)
+    @JsonBackReference("usuario-processo")
     private Usuario criadoPor;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "equipe_id")
-    @JsonBackReference
+    @JoinColumn(name = "equipe_id", nullable = true)
+    @JsonBackReference("equipe-processo")
     private Equipe equipe;
 
     @Column(name = "descricao", columnDefinition = "text")

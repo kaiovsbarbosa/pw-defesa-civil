@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,6 +16,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -46,6 +48,10 @@ public class Usuario {
         inverseJoinColumns = @JoinColumn(name = "equipe_id")
     )
     private List<Equipe> equipes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "criadoPor")
+    @JsonManagedReference("usuario-processo")
+    private List<Processo> processosCriados = new ArrayList<>();
 
     public Usuario() {}
 

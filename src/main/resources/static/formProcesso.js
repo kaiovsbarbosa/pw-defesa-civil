@@ -4,9 +4,13 @@ document.addEventListener('DOMContentLoaded', function() {
     form.addEventListener('submit', function(event) {
         event.preventDefault();
 
+        const formatDateToLocalDateTime = (dateStr) => {
+            return dateStr ? `${dateStr}T00:00:00` : null;
+        };
+
         const tipo = document.getElementById('tipo').value;
-        const dataInicio = document.getElementById('dataInicio').value;
-        const dataFim = document.getElementById('dataFim').value;
+        const dataInicio = formatDateToLocalDateTime(document.getElementById('dataInicio').value);
+        const dataFim = formatDateToLocalDateTime(document.getElementById('dataFim').value);
         const status = document.getElementById('status').value;
         const localizacaoDescricao = document.getElementById('descricaoLocalizacao').value;
         const descricao = document.getElementById('descricao').value;
@@ -17,7 +21,9 @@ document.addEventListener('DOMContentLoaded', function() {
             dataFim,
             status,
             localizacaoDescricao,
-            descricao
+            descricao,
+            criadoPor: null,
+            equipe: null
         };
 
          async function salvarProcesso() {
