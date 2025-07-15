@@ -29,6 +29,9 @@ public class Processo {
     @Column(name = "status", nullable = false)
     private StatusProcesso status = StatusProcesso.EM_ANDAMENTO;
 
+    @Column(name = "cidade_bairro", columnDefinition = "text")
+    private String cidadeBairro;
+
     @Column(name = "localizacao_descricao", columnDefinition = "text")
     private String localizacaoDescricao;
 
@@ -44,7 +47,6 @@ public class Processo {
 
     @Column(name = "descricao", columnDefinition = "text")
     private String descricao;
-
 
     public Long getId() {
         return id;
@@ -107,5 +109,11 @@ public class Processo {
     }
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+    public String getCidadeBairro() {
+        return cidadeBairro;
+    }
+    public void setCidadeBairro(String cidadeBairro) {
+        this.cidadeBairro = cidadeBairro;
     }
 }
