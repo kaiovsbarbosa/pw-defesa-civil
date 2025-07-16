@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Usuário</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <link rel="stylesheet" href="formUsuario.css">
+    <script src="formUsuario.js" defer></script>
+</head>
+
+<body>
+
+    <div class="container text-left my-5">
+        <p class="display-6">Criar Usuário</p>
+    </div>
+
+    <div class="container mt-5">
+        <form>
+            <label for="nome" class="form-label">Nome</label>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" aria-label="Insira seu Nome"
+                    aria-describedby="inputGroup-sizing-default" placeholder="Insira seu name" id="nome">
+            </div>
+
+            <label for="email" class="form-label">Email</label>
+            <div class="input-group mb-3">
+                <input type="email" class="form-control" aria-label="Insira seu Email"
+                    aria-describedby="inputGroup-sizing-default" placeholder="Insira seu Email" id="email">
+            </div>
+
+            <label for="cargo" class="form-label">Cargo</label>
+            <div class="mb-3">
+                <select class="form-select" id="perfil">
+                    <option selected>Selecione o tipo de Cargo</option>
+                    <option value="Administrador">Administrador</option>
+                    <option value="Coordenador">Coordenador</option>
+                    <option value="Colaborador">Colaborador</option>
+                </select>
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-primary">Enviar</button>
+                <a href="usuario.html" class="btn btn-danger" role="button">Voltar</a>
+            </div>
+
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>

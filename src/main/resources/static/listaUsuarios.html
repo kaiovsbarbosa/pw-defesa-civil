@@ -3,26 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listagem de Processos</title>
+    <title>Listagem de Usuários</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <link rel="stylesheet" href="listaProcessos.css">
-    <script src="listaProcessos.js" defer></script>
+    <link rel="stylesheet" href="listaUsuarios.css">
+    <script src="listaUsuarios.js" defer></script>
 </head>
 <body>
     
     <div class="container mt-5">
-        <h1 class="mt-4">Listagem de Processos</h1>
+        <h1 class="mt-4">Listagem de Usuários</h1>
         <ol class="breadcrumb mb-4">
         </ol>
 
         <div class="row mb-3">
             <div class="d-flex justify-content-between">
-                <a href="formProcesso.html" class="btn btn-warning">
+                <a href="formUsuario.html" class="btn btn-warning">
                     <i class="fa fa-plus"></i> Novo
                 </a>
-                <a href="processo.html" class="btn btn-danger" role="button">Voltar</a>
+                <a href="usuario.html" class="btn btn-danger" role="button">Voltar</a>
             </div>
         </div>
         
@@ -33,14 +33,13 @@
                     <table class="table table-hover">
                         <thead class="table-dark">
                             <tr>
-                                <th>Status</th>
-                                <th>Tipo</th>
-                                <th>Data Inicio</th>
-                                <th>Data Fim</th>
+                                <th>Nome</th>
+                                <th>Email</th>
+                                <th>Cargo</th>
                                 <th class="text-center">Ações</th>
                             </tr>
                         </thead>
-                        <tbody id="tabelaProcessos">
+                        <tbody id="tabelaUsuarios">
                             
                         </tbody>
                     </table>

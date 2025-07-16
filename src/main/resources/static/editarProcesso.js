@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         document.getElementById('dataInicio').value = processo.dataInicio?.split('T')[0];
         document.getElementById('dataFim').value = processo.dataFim?.split('T')[0];
         document.getElementById('status').value = processo.status;
-        document.getElementById('descricaoLocalizacao').value =processo.localizacaoDescricao;
+        document.getElementById('localizacaoDescricao').value = processo.localizacaoDescricao;
         document.getElementById('descricao').value = processo.descricao ?? '';
 
         console.log('Processo retornado:', processo);
@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             dataInicio: formatDateToLocalDateTime(document.getElementById('dataInicio').value),
             dataFim: formatDateToLocalDateTime(document.getElementById('dataFim').value),
             status: document.getElementById('status').value,
-            descricaoLocalizacao: document.getElementById('descricaoLocalizacao').value,
+            localizacaoDescricao: document.getElementById('localizacaoDescricao').value,
             descricao: document.getElementById('descricao').value,
             criadoPor: null,
             equipe: null
