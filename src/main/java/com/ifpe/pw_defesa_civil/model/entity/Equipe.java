@@ -1,10 +1,10 @@
 package com.ifpe.pw_defesa_civil.model.entity;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -25,8 +25,8 @@ public class Equipe {
     @Column(name = "nome_equipe", nullable = false, length = 255, unique = true)
     private String nomeEquipe;
 
-    @Column(name = "data_criacao", nullable = false)
-    private LocalDateTime dataCriacao;
+    // @Column(name = "data_criacao", nullable = false)
+    // private LocalDateTime dataCriacao;
 
     @JsonBackReference
     @ManyToMany(mappedBy = "equipes", fetch = FetchType.LAZY)
@@ -63,12 +63,12 @@ public class Equipe {
         this.membros = membros;
     }
 
-    public LocalDateTime getDataCriacao() {
-        return dataCriacao;
-    }
+    // public LocalDateTime getDataCriacao() {
+    //     return dataCriacao;
+    // }
 
-    public void setDataCriacao(LocalDateTime dataCriacao) {
-        this.dataCriacao = dataCriacao;
-    }
+    // public void setDataCriacao(LocalDateTime dataCriacao) {
+    //     this.dataCriacao = dataCriacao;
+    // }
 
 }

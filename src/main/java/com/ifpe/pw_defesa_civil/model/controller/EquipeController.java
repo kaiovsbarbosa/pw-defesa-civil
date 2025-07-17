@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.ifpe.pw_defesa_civil.model.entity.Equipe;
@@ -20,11 +21,13 @@ public class EquipeController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('Administrador') OR hasRole('Operador') OR hasRole('Visualizador')")
     public List<Equipe> findAll() {
         return equipeService.findAll();
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('Administrador') OR hasRole('Operador') OR hasRole('Visualizador')")
     public ResponseEntity<Equipe> findById(@PathVariable Long id) {
         Optional<Equipe> equipe = equipeService.findById(id);
         return equipe.map(ResponseEntity::ok)
@@ -32,11 +35,13 @@ public class EquipeController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('Administrador') OR hasRole('Operador')")
     public Equipe create(@RequestBody Equipe equipe) {
         return equipeService.save(equipe);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('Administrador') OR hasRole('Operador')")
     public ResponseEntity<Equipe> update(@PathVariable Long id, @RequestBody Equipe equipe) {
         if (equipeService.findById(id).isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -47,6 +52,7 @@ public class EquipeController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('Administrador')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         if (equipeService.findById(id).isEmpty()) {
             return ResponseEntity.notFound().build();

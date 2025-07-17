@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.ifpe.pw_defesa_civil.model.entity.Processo;
@@ -20,11 +21,13 @@ public class ProcessoController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('Administrador') OR hasRole('Operador') OR hasRole('Visualizador')")
     public List<Processo> findAll() {
         return processoService.findAll();
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('Administrador') OR hasRole('Operador') OR hasRole('Visualizador')")
     public ResponseEntity<Processo> findById(@PathVariable Long id) {
         Optional<Processo> processo = processoService.findById(id);
         return processo.map(ResponseEntity::ok)
@@ -32,11 +35,13 @@ public class ProcessoController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('Administrador') OR hasRole('Operador')")
     public Processo create(@RequestBody Processo processo) {
         return processoService.save(processo);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('Administrador') OR hasRole('Operador')")
     public ResponseEntity<Processo> update(@PathVariable Long id, @RequestBody Processo processo) {
         if (processoService.findById(id).isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -47,6 +52,7 @@ public class ProcessoController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('Administrador')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         if (processoService.findById(id).isEmpty()) {
             return ResponseEntity.notFound().build();

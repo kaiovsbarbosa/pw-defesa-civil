@@ -41,7 +41,6 @@ public class UsuarioService implements UserDetailsService{
 
     @Transactional
     public Usuario save(Usuario usuario) {
-        // Aqui você pode adicionar validações, checar existência de perfil/equipe, etc.
         return usuarioRepository.save(usuario);
     }
 
