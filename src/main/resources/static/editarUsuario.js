@@ -1,5 +1,11 @@
 const api_url = 'http://localhost:8080/api/usuarios';
 
+const IdCargoMap = {
+    'Administrador': 1,
+    'Coordenador': 2,
+    'Colaborador': 3
+};
+
 document.addEventListener('DOMContentLoaded', async function () {
     const urlParams = new URLSearchParams(window.location.search);
     const usuarioId = urlParams.get('id');
@@ -15,10 +21,11 @@ document.addEventListener('DOMContentLoaded', async function () {
         if (!resposta.ok) throw new Error('Erro ao carregar usuário');
         const usuario = await resposta.json();
 
+
         document.getElementById('nome').value = usuario.nome;
         document.getElementById('email').value = usuario.email;
         document.getElementById('perfil').value = usuario.perfil?.tipo;
-        
+
 
         console.log('Usuário retornado:', usuario);
     } catch (erro) {
@@ -31,11 +38,14 @@ document.addEventListener('DOMContentLoaded', async function () {
     form.addEventListener('submit', async function (event) {
         event.preventDefault();
 
+        const nomePerfil = document.getElementById('perfil').value;
+        const idPerfil = IdCargoMap[nomePerfil];
+
         const dadosAtualizados = {
             nome: document.getElementById('nome').value,
             email: document.getElementById('email').value,
             perfil: {
-                tipo: document.getElementById('perfil').value
+                id: idPerfil
             }
         };
 

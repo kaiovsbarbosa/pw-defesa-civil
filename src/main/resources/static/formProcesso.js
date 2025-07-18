@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
             equipes.forEach(equipe => {
                 const option = document.createElement('option');
                 option.value = equipe.id;
-                option.textContent = equipe.nome;
+                option.textContent = equipe.nomeEquipe;
                 selectEquipe.appendChild(option);
             });
         } catch (erro) {

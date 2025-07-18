@@ -32,11 +32,11 @@ function renderizarTabela(processos) {
         ? new Date(processo.dataFim).toLocaleDateString('pt-BR') 
         : '';
 
-        const status = capitalizarTexto(processo.status);
+        const responsavel = processo.criadoPor ? processo.criadoPor.nome : 'Não atribuído';
         const tipo = capitalizarTexto(processo.tipo);
 
         tr.innerHTML = `
-            <td>${status}</td>
+            <td>${responsavel}</td>
             <td>${tipo}</td>
             <td>${dataInicio}</td>
             <td>${dataFim || ''}</td>

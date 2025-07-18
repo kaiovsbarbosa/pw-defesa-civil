@@ -6,13 +6,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const nome = document.getElementById('nome').value;
         const email = document.getElementById('email').value;
+        const senha = document.getElementById('senha').value;
         const perfil = document.getElementById('perfil').value;
 
         const novoUsuario = {
             nome,
             email,
+            senhaHash: senha,
             perfil: {
-                tipo: perfil
+                id: parseInt(perfil)
             }
         };
 

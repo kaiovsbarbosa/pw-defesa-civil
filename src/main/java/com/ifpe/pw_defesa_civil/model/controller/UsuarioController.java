@@ -38,10 +38,13 @@ public class UsuarioController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Usuario> update(@PathVariable Long id, @RequestBody Usuario usuario) {
+        Optional<Usuario> usuarioExistenteOpt = usuarioService.findById(id);
         if (usuarioService.findById(id).isEmpty()) {
             return ResponseEntity.notFound().build();
         }
+        String senhaExistente = usuarioExistenteOpt.get().getSenhaHash();
         usuario.setId(id);
+        usuario.setSenhaHash(senhaExistente);
         Usuario updated = usuarioService.save(usuario);
         return ResponseEntity.ok(updated);
     }
