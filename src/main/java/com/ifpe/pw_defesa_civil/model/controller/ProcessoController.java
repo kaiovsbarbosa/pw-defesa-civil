@@ -54,4 +54,16 @@ public class ProcessoController {
         processoService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/total")
+    public ResponseEntity<Long> getTotalProcessos() {
+        long total = processoService.getTotalDeProcessos();
+        return ResponseEntity.ok(total);
+    }
+
+    @GetMapping("/total/abertos")
+    public ResponseEntity<Long> getTotalProcessosAbertos() {
+        long totalAbertos = processoService.getTotalProcessosEmAndamento();
+        return ResponseEntity.ok(totalAbertos);
+    }
 }
