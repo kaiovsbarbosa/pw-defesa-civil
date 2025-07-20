@@ -7,8 +7,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import com.ifpe.pw_defesa_civil.model.dto.AtualizarUsuarioDTO;
+import com.ifpe.pw_defesa_civil.model.dto.SalvarUsuarioDTO;
+import com.ifpe.pw_defesa_civil.model.dto.UsuarioDTO;
 import com.ifpe.pw_defesa_civil.model.entity.Usuario;
 import com.ifpe.pw_defesa_civil.service.UsuarioService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/usuarios")
@@ -28,27 +33,30 @@ public class UsuarioController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('Administrador') OR hasRole('Operador') OR hasRole('Visualizador')")
-    public ResponseEntity<Usuario> findById(@PathVariable Long id) {
+    public ResponseEntity<UsuarioDTO> findById(@PathVariable Long id) {
         Optional<Usuario> usuario = usuarioService.findById(id);
-        return usuario.map(ResponseEntity::ok)
+        return usuario.map(u -> ResponseEntity.ok(UsuarioDTO.fromEntity(u)))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
     @PreAuthorize("hasRole('Administrador')")
-    public Usuario create(@RequestBody Usuario usuario) {
-        return usuarioService.save(usuario);
+    public UsuarioDTO create(@RequestBody @Valid SalvarUsuarioDTO usuarioCreateDTO) {
+        Usuario usuario = usuarioService.save(usuarioCreateDTO);
+        return UsuarioDTO.fromEntity(usuario);
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('Administrador') OR hasRole('Operador')")
-    public ResponseEntity<Usuario> update(@PathVariable Long id, @RequestBody Usuario usuario) {
-        if (usuarioService.findById(id).isEmpty()) {
+    public ResponseEntity<UsuarioDTO> update(@PathVariable Long id,
+        @RequestBody @Valid AtualizarUsuarioDTO usuarioUpdateDTO) {
+        Optional<Usuario> usuarioExistente = usuarioService.findById(id);
+        if (usuarioExistente.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        usuario.setId(id);
-        Usuario updated = usuarioService.save(usuario);
-        return ResponseEntity.ok(updated);
+        
+        Usuario usuarioAtualizado = usuarioService.update(id, usuarioUpdateDTO);
+        return ResponseEntity.ok(UsuarioDTO.fromEntity(usuarioAtualizado));
     }
 
     @DeleteMapping("/{id}")
