@@ -1,57 +1,62 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listagem de Processos</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <link rel="stylesheet" href="listaProcessos.css">
-    <script src="listaProcessos.js" defer></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Listagem de Processos</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="listaProcessos.css" />
+  <script src="listaProcessos.js" defer></script>
 </head>
+
 <body>
-    
-    <div class="container mt-5">
-        <h1 class="mt-4">Listagem de Processos</h1>
-        <ol class="breadcrumb mb-4">
-        </ol>
+  <main class="container mt-5" role="main" aria-labelledby="tituloPagina">
+    <h1 id="tituloPagina" class="mt-4">Listagem de Processos</h1>
 
-        <div class="row mb-3">
-            <div class="d-flex justify-content-between">
-                <a href="formProcesso.html" class="btn btn-warning">
-                    <i class="fa fa-plus"></i> Novo
-                </a>
-                <a href="processo.html" class="btn btn-danger" role="button">Voltar</a>
-            </div>
-        </div>
-        
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item active" aria-current="page">Processos</li>
+      </ol>
+    </nav>
 
-        <div class="row">
-            <div class="col-md-12">
-                <div class="table-responsive">
-                    <table class="table table-hover">
-                        <thead class="table-dark">
-                            <tr>
-                                <th>Responsável</th>
-                                <th>Tipo</th>
-                                <th>Data Inicio</th>
-                                <th>Data Fim</th>
-                                <th class="text-center">Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tabelaProcessos">
-                            
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+    <div class="row mb-3">
+      <div class="d-flex justify-content-between">
+        <a href="formProcesso.html" class="btn btn-warning" role="button" aria-label="Criar novo processo">
+          <i class="fa fa-plus" aria-hidden="true"></i> Novo
+        </a>
+        <a href="processo.html" class="btn btn-danger" role="button" aria-label="Voltar para tela anterior">Voltar</a>
+      </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+    <div class="row">
+      <div class="col-md-12">
+        <div class="table-responsive" aria-label="Tabela de processos">
+          <table class="table table-hover">
+            <caption class="visually-hidden">Lista de processos com responsável, tipo, datas e ações disponíveis</caption>
+            <thead class="table-dark">
+              <tr>
+                <th scope="col">Responsável</th>
+                <th scope="col">Tipo</th>
+                <th scope="col">Data Início</th>
+                <th scope="col">Data Fim</th>
+                <th scope="col" class="text-center">Ações</th>
+              </tr>
+            </thead>
+            <tbody id="tabelaProcessos">
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
     crossorigin="anonymous"></script>
-
 </body>
+
 </html>

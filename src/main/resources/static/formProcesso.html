@@ -2,91 +2,112 @@
 <html lang="pt-br">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Formulário de Processos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
-    <link rel="stylesheet" href="formProcesso.css">
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous" />
+    <link rel="stylesheet" href="formProcesso.css" />
     <script src="formProcesso.js" defer></script>
 </head>
 
 <body>
+    <main class="container my-5" role="main" aria-labelledby="tituloPagina">
+        <h1 id="tituloPagina" class="display-6">Formulário de Processos</h1>
 
-    <div class="container text-left my-5">
-        <p class="display-6">Formulário de Processos</p>
-    </div>
+        <form aria-describedby="descricaoFormulario">
+            <p id="descricaoFormulario" class="visually-hidden">
+                Formulário para cadastrar um processo, incluindo tipo, data, status, responsáveis e descrição.
+            </p>
 
-    <div class="container mt-5">
-        <form>
             <div class="mb-3">
                 <label for="tipo" class="form-label">Tipo</label>
-                <select class="form-select" id="tipo">
-                    <option selected>Selecione o tipo de Processo</option>
+                <select class="form-select" id="tipo" name="tipo" required aria-required="true">
+                    <option value="" disabled selected>Selecione o tipo de Processo</option>
                     <option value="VISTORIA">Vistoria</option>
+                    <option value="VISTORIA_BARRAGEM">Vistoria Barragem</option>
+                    <option value="VISTORIA_MORRO">Vistoria Morro</option>
+                    <option value="VISTORIA_EDIFICIO">Vistoria Edifício</option>
                     <option value="MONITORAMENTO">Monitoramento</option>
+                    <option value="MAPEAMENTO_DESLIZAMENTO">Mapeamento Deslizamento</option>
+                    <option value="MAPEAMENTO_INUNDACAO">Mapeamento Inundação</option>
+                    <option value="MAPEAMENTO_BARRAGEM">Mapeamento Barragem</option>
+                    <option value="MAPEAMENTO_EROSAO">Mapeamento Erosão</option>
+                    <option value="MAPEAMENTO_INFRAESTRUTURA">Mapeamento Infraestrutura</option>
+                    <option value="VISITA_TECNICA">Visita Técnica</option>
                 </select>
             </div>
 
             <div class="row">
                 <div class="col-md-6 mb-3">
-                    <label for="dataInicio" class="form-label">Data Início</label>
-                    <input type="date" class="form-control" id="dataInicio">
+                    <label for="data" class="form-label">Data</label>
+                    <input type="date" class="form-control" id="data" name="data" required aria-required="true" />
                 </div>
+
                 <div class="col-md-6 mb-3">
-                    <label for="dataFim" class="form-label">Data Fim</label>
-                    <input type="date" class="form-control" id="dataFim">
+                    <label for="status" class="form-label">Status</label>
+                    <select class="form-select" id="status" name="status" required aria-required="true">
+                        <option value="" disabled selected>Selecione um status</option>
+                        <option value="EM_ANDAMENTO">Em andamento</option>
+                        <option value="FINALIZADO">Finalizado</option>
+                        <option value="CANCELADO">Cancelado</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="criador" class="form-label">Criador</label>
+                    <select class="form-select" id="criador" name="criador" required aria-required="true"
+                        aria-label="Selecione o criador do processo">
+                        <option value="" disabled selected>Selecione o criador do processo</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="equipe" class="form-label">Equipe</label>
+                    <select class="form-select" id="equipe" name="equipe" required aria-required="true"
+                        aria-label="Selecione a equipe responsável">
+                        <option value="" disabled selected>Selecione a equipe responsável</option>
+                    </select>
                 </div>
             </div>
 
             <div class="mb-3">
-                <label for="status" class="form-label">Status</label>
-                <select class="form-select" id="status">
-                    <option selected>Selecione um status</option>
-                    <option value="EM_ANDAMENTO">Em andamento</option>
-                    <option value="FINALIZADO">Finalizado</option>
-                </select>
-            </div>
-
-            <label for="tipo" class="form-label">Criador e Equipe</label>
-            <div class="container text-center mb-3">
-                <div class="row align-items-start">
-                    <div class="col">
-                        <select class="form-select" aria-label="select creator">
-                            <option selected>Selecione o criador do processo</option>
-                        </select>
-                    </div>
-                    <div class="col">
-                        <select class="form-select" aria-label="select team">
-                            <option selected>Selecione a equipe responsável</option>
-                        </select>
-                    </div>
-                </div>
+                <label for="localizacao" class="form-label">Localização</label>
+                <textarea class="form-control no-resize" id="localizacao" name="localizacao" rows="1"
+                    aria-label="Informe a localização do processo"></textarea>
             </div>
 
             <div class="mb-3">
-                <label for="localizacaoDescricao" class="form-label">Descrição da Localização</label>
-                <textarea class="form-control no-resize" id="localizacaoDescricao" rows="4"></textarea>
+                <label for="equipamento" class="form-label">Equipamento</label>
+                <textarea class="form-control no-resize" id="equipamento" name="equipamento" rows="3"
+                    aria-label="Descreva os equipamentos utilizados"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="relatorio" class="form-label">Adicionar Relatório</label>
+                <input class="form-control" type="file" id="relatorio" name="relatorio"
+                    aria-label="Anexar arquivo de relatório" />
             </div>
 
             <div class="mb-3">
                 <label for="descricao" class="form-label">Descrição</label>
-                <textarea class="form-control no-resize" id="descricao" rows="4"></textarea>
+                <textarea class="form-control no-resize" id="descricao" name="descricao" rows="4"
+                    aria-label="Descreva o processo detalhadamente"></textarea>
             </div>
-
 
             <div class="d-flex justify-content-between">
-                <button type="submit" class="btn btn-primary">Enviar</button>
-                <a href="processo.html" class="btn btn-danger" role="button">Voltar</a>
+                <button type="submit" class="btn btn-primary" aria-label="Enviar formulário de processo">Enviar</button>
+                <a href="processo.html" class="btn btn-danger" role="button"
+                    aria-label="Voltar para a página de processos">Voltar</a>
             </div>
-
         </form>
-    </div>
+    </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
         crossorigin="anonymous"></script>
-
 </body>
 
 </html>

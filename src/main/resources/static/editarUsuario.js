@@ -1,12 +1,5 @@
-const api_url = 'http://localhost:8080/api/usuarios';
-
-const IdCargoMap = {
-    'Administrador': 1,
-    'Coordenador': 2,
-    'Colaborador': 3
-};
-
 document.addEventListener('DOMContentLoaded', async function () {
+    const api_url = 'http://localhost:8080/api/usuarios';
     const urlParams = new URLSearchParams(window.location.search);
     const usuarioId = urlParams.get('id');
 
@@ -21,33 +14,33 @@ document.addEventListener('DOMContentLoaded', async function () {
         if (!resposta.ok) throw new Error('Erro ao carregar usuário');
         const usuario = await resposta.json();
 
-
         document.getElementById('nome').value = usuario.nome;
         document.getElementById('email').value = usuario.email;
-        document.getElementById('perfil').value = usuario.perfil?.tipo;
+        if (usuario.perfilId) {
+            document.getElementById('perfil').value = usuario.perfilId;
+        }
 
-
-        console.log('Usuário retornado:', usuario);
     } catch (erro) {
         console.error('Erro ao carregar usuário:', erro);
         alert('Erro ao carregar dados do usuário.');
-        window.location.href = 'listaUsuario.html';
+        window.location.href = 'listaUsuarios.html';
     }
+
 
     const form = document.querySelector('form');
     form.addEventListener('submit', async function (event) {
         event.preventDefault();
 
-        const nomePerfil = document.getElementById('perfil').value;
-        const idPerfil = IdCargoMap[nomePerfil];
-
         const dadosAtualizados = {
             nome: document.getElementById('nome').value,
             email: document.getElementById('email').value,
-            perfil: {
-                id: idPerfil
-            }
+            senha: document.getElementById('senha').value,
+            perfilId: parseInt(document.getElementById('perfil').value)
         };
+
+        if (!dadosAtualizados.senha) {
+            delete dadosAtualizados.senha;
+        }
 
         try {
             const resposta = await fetch(`${api_url}/${usuarioId}`, {
@@ -58,14 +51,17 @@ document.addEventListener('DOMContentLoaded', async function () {
                 body: JSON.stringify(dadosAtualizados)
             });
 
-            if (!resposta.ok) throw new Error('Erro ao atualizar usuário');
+            if (!resposta.ok) {
+                 const errorData = await response.json();
+                 const errorMessage = errorData.message || `Erro ao atualizar Usuário: ${response.statusText}`;
+                 throw new Error(errorMessage);
+            }
+
             alert('Usuário atualizado com sucesso!');
             window.location.href = 'listaUsuarios.html';
         } catch (erro) {
             console.error('Erro ao atualizar o usuário:', erro);
-            alert('Erro ao salvar alterações. Tente novamente.');
+            alert(`Erro ao salvar alterações: ${erro.message}`);
         }
     });
 });
-
-

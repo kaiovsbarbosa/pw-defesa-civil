@@ -24,12 +24,8 @@ function renderizarTabela(processos) {
     processos.forEach(processo => {
         const tr = document.createElement('tr');
 
-        const dataInicio = processo.dataInicio 
-        ? new Date(processo.dataInicio).toLocaleDateString('pt-BR') 
-        : '';
-
-        const dataFim = processo.dataFim 
-        ? new Date(processo.dataFim).toLocaleDateString('pt-BR') 
+        const data = processo.data
+        ? new Date(processo.data).toLocaleDateString('pt-BR') 
         : '';
 
         const responsavel = processo.criadoPor ? processo.criadoPor.nome : 'Não atribuído';
@@ -38,10 +34,12 @@ function renderizarTabela(processos) {
         tr.innerHTML = `
             <td>${responsavel}</td>
             <td>${tipo}</td>
-            <td>${dataInicio}</td>
-            <td>${dataFim || ''}</td>
+            <td>${data}</td>
             <td class="text-center">
-                <button class="btn btn-primary btn-sm" onclick="editarProcesso(${processo.id})" title="Editar">
+                <button class="btn btn-primary btn-sm" onclick="visuProcesso(${processo.id})" title="Visualizar">
+                    <i class="fa-solid fa-eye"></i>
+                </button>
+                <button class="btn btn-warning btn-sm" onclick="editarProcesso(${processo.id})" title="Editar">
                     <i class="fa fa-pencil"></i>
                 </button>
                 <button class="btn btn-danger btn-sm ms-2" onclick="excluirProcesso(${processo.id})" title="Deletar">
@@ -51,6 +49,10 @@ function renderizarTabela(processos) {
         `;
         corpoTabela.appendChild(tr);
     });
+}
+
+function visuProcesso(id) {
+    window.location.href = `visuProcesso.html?id=${id}`;
 }
 
 

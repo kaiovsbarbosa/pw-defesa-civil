@@ -2,57 +2,62 @@
 <html lang="pt-br">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Usuário</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
-    <link rel="stylesheet" href="editarUsuario.css">
-    <script src="editarUsuario.js" defer></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Editar Usuário</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous" />
+  <link rel="stylesheet" href="editarUsuario.css" />
+  <script src="editarUsuario.js" defer></script>
 </head>
 
 <body>
+  <main class="container my-5" role="main" aria-labelledby="tituloPagina">
+    <h1 id="tituloPagina" class="display-6">Editar Usuário</h1>
 
-    <div class="container text-left my-5">
-        <p class="display-6">Editar Usuário</p>
-    </div>
+    <form aria-describedby="descricaoFormulario">
+      <p id="descricaoFormulario" class="visually-hidden">
+        Formulário para editar informações de um usuário, como nome, e-mail, senha e cargo.
+      </p>
 
-    <div class="container mt-5">
-        <form>
-            <label for="nome" class="form-label">Nome</label>
-            <div class="input-group mb-3">
-                <input type="text" class="form-control" aria-label="Insira seu Nome"
-                    aria-describedby="inputGroup-sizing-default" placeholder="Insira seu name" id="nome">
-            </div>
+      <div class="mb-3">
+        <label for="nome" class="form-label">Nome</label>
+        <input type="text" class="form-control" id="nome" name="nome" placeholder="Insira seu nome"
+          aria-label="Insira seu nome" required aria-required="true" />
+      </div>
 
-            <label for="email" class="form-label">Email</label>
-            <div class="input-group mb-3">
-                <input type="email" class="form-control" aria-label="Insira seu Email"
-                    aria-describedby="inputGroup-sizing-default" placeholder="Insira seu Email" id="email">
-            </div>
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" id="email" name="email" placeholder="Insira seu email"
+          aria-label="Insira seu email" required aria-required="true" />
+      </div>
 
-           <label for="cargo" class="form-label">Cargo</label>
-            <div class="mb-3">
-                <select class="form-select" id="perfil">
-                    <option selected>Selecione o tipo de Cargo</option>
-                    <option value="Administrador">Administrador</option>
-                    <option value="Coordenador">Coordenador</option>
-                    <option value="Colaborador">Colaborador</option>
-                </select>
-            </div>
+      <div class="mb-3">
+        <label for="senha" class="form-label">Senha</label>
+        <input type="password" class="form-control" id="senha" name="senha" placeholder="Insira sua senha"
+          aria-label="Insira sua senha" required aria-required="true" />
+      </div>
 
-            <div class="d-flex justify-content-between">
-                <button type="submit" class="btn btn-primary">Enviar</button>
-                <a href="usuario.html" class="btn btn-danger" role="button">Voltar</a>
-            </div>
+      <div class="mb-3">
+        <label for="perfil" class="form-label">Cargo</label>
+        <select class="form-select" id="perfil" name="perfil" aria-label="Selecione o tipo de cargo" required aria-required="true">
+          <option value="" disabled selected>Selecione o tipo de Cargo</option>
+          <option value="1">Administrador</option>
+          <option value="2">Coordenador</option>
+          <option value="3">Colaborador</option>
+        </select>
+      </div>
 
-        </form>
-    </div>
+      <div class="d-flex justify-content-between">
+        <button type="submit" class="btn btn-primary" aria-label="Enviar informações do usuário">Enviar</button>
+        <a href="usuario.html" class="btn btn-danger" role="button" aria-label="Voltar para a lista de usuários">Voltar</a>
+      </div>
+    </form>
+  </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
-        crossorigin="anonymous"></script>
-
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+    crossorigin="anonymous"></script>
 </body>
 
 </html>

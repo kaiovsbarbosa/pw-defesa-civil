@@ -2,9 +2,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const loginForm = document.getElementById('loginForm');
     const loginError = document.getElementById('loginError');
 
-    loginForm.addEventListener('submit', function (event) {
+    loginForm.addEventListener('submit', async function (event) {
         event.preventDefault();
-
         loginError.classList.add('d-none');
 
         const email = document.getElementById('email').value;
@@ -14,24 +13,32 @@ document.addEventListener('DOMContentLoaded', function () {
         formData.append('username', email);
         formData.append('password', password);
 
-        fetch('/login', {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
-        })
-            .then(response => {
-                if (response.ok && response.redirected) {
+        try {
+            const response = await fetch('/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: formData.toString()
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+
+                if (data.token) {
+                    localStorage.setItem('token', data.token);
                     window.location.href = 'processo.html';
                 } else {
-                    loginError.classList.remove('d-none');
+                    throw new Error("Token não retornado");
                 }
-            })
-            .catch(error => {
-                console.error('Erro ao tentar fazer login:', error);
-                loginError.textContent = 'Ocorreu um erro inesperado. Tente novamente.';
+            } else {
+                loginError.textContent = 'Credenciais inválidas.';
                 loginError.classList.remove('d-none');
-            });
+            }
+        } catch (error) {
+            console.error('Erro ao tentar fazer login:', error);
+            loginError.textContent = 'Erro inesperado. Tente novamente.';
+            loginError.classList.remove('d-none');
+        }
     });
 });

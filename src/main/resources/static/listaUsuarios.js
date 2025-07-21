@@ -27,7 +27,7 @@ function renderizarTabela(usuarios) {
         tr.innerHTML = `
             <td>${usuario.nome}</td>
             <td>${usuario.email}</td>
-            <td>${usuario.perfil?.tipo || 'Sem perfil'}</td>
+            <td>${usuario.perfilTipo || 'Sem perfil'}</td>
             <td class="text-center">
                 <button class="btn btn-primary btn-sm" onclick="editarUsuario(${usuario.id})" title="Editar">
                     <i class="fa fa-pencil"></i>

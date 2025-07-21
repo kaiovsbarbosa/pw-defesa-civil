@@ -7,18 +7,16 @@ document.addEventListener('DOMContentLoaded', function() {
         const nome = document.getElementById('nome').value;
         const email = document.getElementById('email').value;
         const senha = document.getElementById('senha').value;
-        const perfil = document.getElementById('perfil').value;
+        const perfilId = document.getElementById('perfil').value;
 
         const novoUsuario = {
             nome,
             email,
-            senhaHash: senha,
-            perfil: {
-                id: parseInt(perfil)
-            }
+            senha,
+            perfilId: parseInt(perfilId)
         };
 
-         async function salvarUsuario() {
+        async function salvarUsuario() {
             try {
                 const response = await fetch(api_url, {
                     method: 'POST',
@@ -29,14 +27,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
 
                 if (!response.ok) {
-                    throw new Error(`Erro ao salvar Usuário: ${response.statusText}`);
+                    const errorData = await response.json();
+                    const errorMessage = errorData.message || `Erro ao salvar Usuário: ${response.statusText}`;
+                    throw new Error(errorMessage);
                 }
 
                 alert('Usuário salvo com sucesso!');
                 form.reset();
             } catch (error) {
                 console.error('Erro na requisição:', error);
-                alert('Erro ao salvar Usuário')
+                alert(`Erro ao salvar Usuário: ${error.message}`);
             }
         }
 
@@ -45,4 +45,3 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log("Enviando para API:", novoUsuario);
     });
 });
-
