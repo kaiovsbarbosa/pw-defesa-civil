@@ -27,6 +27,9 @@ public class Equipe {
     @Column(name = "nome_equipe", nullable = false, length = 255, unique = true)
     private String nomeEquipe;
 
+    // @Column(name = "data_criacao", nullable = false)
+    // private LocalDateTime dataCriacao;
+
     @JsonBackReference
     @ManyToMany(mappedBy = "equipes", fetch = FetchType.LAZY)
     private List<Usuario> membros = new ArrayList<>();
@@ -65,5 +68,13 @@ public class Equipe {
     public void setMembros(List<Usuario> membros) {
         this.membros = membros;
     }
+
+    // public LocalDateTime getDataCriacao() {
+    //     return dataCriacao;
+    // }
+
+    // public void setDataCriacao(LocalDateTime dataCriacao) {
+    //     this.dataCriacao = dataCriacao;
+    // }
 
 }

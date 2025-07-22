@@ -1,21 +1,14 @@
 package com.ifpe.pw_defesa_civil.service;
 
-import com.ifpe.pw_defesa_civil.model.entity.Atualizacao;
-import com.ifpe.pw_defesa_civil.model.entity.Mapa;
-import com.ifpe.pw_defesa_civil.model.entity.Processo;
-import com.ifpe.pw_defesa_civil.model.entity.Usuario;
-import com.ifpe.pw_defesa_civil.repository.AtualizacaoRepository;
-import com.ifpe.pw_defesa_civil.repository.AtualizacaoRepository;
-import com.ifpe.pw_defesa_civil.repository.ProcessoRepository;
-import com.ifpe.pw_defesa_civil.repository.UsuarioRepository;
-import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+
+import com.ifpe.pw_defesa_civil.model.entity.Atualizacao;
+import com.ifpe.pw_defesa_civil.repository.AtualizacaoRepository;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class AtualizacaoService {

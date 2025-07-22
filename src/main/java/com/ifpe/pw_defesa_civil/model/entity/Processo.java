@@ -19,17 +19,17 @@ public class Processo {
     @Column(name = "tipo", nullable = false)
     private TipoProcesso tipo;
 
-    @Column(name = "data_inicio", nullable = false)
+    @Column(name = "data_inicio", nullable = false) //considerar apenas como data
     private LocalDateTime dataInicio;
 
-    @Column(name = "data_fim")
+    @Column(name = "data_fim") //desconsiderar
     private LocalDateTime dataFim;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private StatusProcesso status = StatusProcesso.EM_ANDAMENTO;
 
-    @Column(name = "localizacao_descricao", columnDefinition = "text")
+    @Column(name = "localizacao_descricao", columnDefinition = "text") //mudar para local/localizacao
     private String localizacaoDescricao;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -42,9 +42,14 @@ public class Processo {
     @JsonBackReference("equipe-processo")
     private Equipe equipe;
 
+    @Column(name = "equipamento", columnDefinition = "text")
+    private String equipamento;
+
     @Column(name = "descricao", columnDefinition = "text")
     private String descricao;
 
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "processo")
+    private Relatorio relatorio;
 
     public Long getId() {
         return id;
@@ -107,5 +112,23 @@ public class Processo {
     }
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+    // public String getCidadeBairro() {
+    //     return cidadeBairro;
+    // }
+    // public void setCidadeBairro(String cidadeBairro) {
+    //     this.cidadeBairro = cidadeBairro;
+    // }
+    public String getEquipamento() {
+        return equipamento;
+    }
+    public void setEquipamento(String equipamento) {
+        this.equipamento = equipamento;
+    }
+    public Relatorio getRelatorio() {
+        return relatorio;
+    }
+    public void setRelatorio(Relatorio relatorio) {
+        this.relatorio = relatorio;
     }
 }

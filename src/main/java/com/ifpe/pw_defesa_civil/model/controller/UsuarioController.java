@@ -4,10 +4,16 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import com.ifpe.pw_defesa_civil.model.dto.AtualizarUsuarioDTO;
+import com.ifpe.pw_defesa_civil.model.dto.SalvarUsuarioDTO;
+import com.ifpe.pw_defesa_civil.model.dto.UsuarioDTO;
 import com.ifpe.pw_defesa_civil.model.entity.Usuario;
 import com.ifpe.pw_defesa_civil.service.UsuarioService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/usuarios")
@@ -20,36 +26,41 @@ public class UsuarioController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('Administrador') OR hasRole('Operador') OR hasRole('Visualizador')")
     public List<Usuario> findAll() {
         return usuarioService.findAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Usuario> findById(@PathVariable Long id) {
+    @PreAuthorize("hasRole('Administrador') OR hasRole('Operador') OR hasRole('Visualizador')")
+    public ResponseEntity<UsuarioDTO> findById(@PathVariable Long id) {
         Optional<Usuario> usuario = usuarioService.findById(id);
-        return usuario.map(ResponseEntity::ok)
+        return usuario.map(u -> ResponseEntity.ok(UsuarioDTO.fromEntity(u)))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public Usuario create(@RequestBody Usuario usuario) {
-        return usuarioService.save(usuario);
+    @PreAuthorize("hasRole('Administrador')")
+    public UsuarioDTO create(@RequestBody @Valid SalvarUsuarioDTO usuarioCreateDTO) {
+        Usuario usuario = usuarioService.save(usuarioCreateDTO);
+        return UsuarioDTO.fromEntity(usuario);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Usuario> update(@PathVariable Long id, @RequestBody Usuario usuario) {
-        Optional<Usuario> usuarioExistenteOpt = usuarioService.findById(id);
-        if (usuarioService.findById(id).isEmpty()) {
+    @PreAuthorize("hasRole('Administrador') OR hasRole('Operador')")
+    public ResponseEntity<UsuarioDTO> update(@PathVariable Long id,
+        @RequestBody @Valid AtualizarUsuarioDTO usuarioUpdateDTO) {
+        Optional<Usuario> usuarioExistente = usuarioService.findById(id);
+        if (usuarioExistente.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        String senhaExistente = usuarioExistenteOpt.get().getSenhaHash();
-        usuario.setId(id);
-        usuario.setSenhaHash(senhaExistente);
-        Usuario updated = usuarioService.save(usuario);
-        return ResponseEntity.ok(updated);
+        
+        Usuario usuarioAtualizado = usuarioService.update(id, usuarioUpdateDTO);
+        return ResponseEntity.ok(UsuarioDTO.fromEntity(usuarioAtualizado));
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('Administrador')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         if (usuarioService.findById(id).isEmpty()) {
             return ResponseEntity.notFound().build();
