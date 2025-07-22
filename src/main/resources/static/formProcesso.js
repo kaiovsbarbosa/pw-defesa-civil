@@ -1,12 +1,17 @@
 document.addEventListener('DOMContentLoaded', function () {
+    if (!Auth.getToken()) {
+        window.location.href = 'telaLogin.html';
+        return;
+    }
+
     const api_url = 'http://localhost:8080/api/processos';
     const usuarios_url = 'http://localhost:8080/api/usuarios';
     const equipes_url = 'http://localhost:8080/api/equipes';
     const relatorios_url = 'http://localhost:8080/relatorios';
 
     const form = document.querySelector('form');
-    const selectCriador = document.querySelector('select[aria-label="select creator"]');
-    const selectEquipe = document.querySelector('select[aria-label="select team"]');
+    const selectCriador = document.getElementById('criador');
+    const selectEquipe = document.getElementById('equipe');
     const relatorioInput = document.getElementById('relatorio');
 
     const formatDateToLocalDateTime = (dateStr) => {
@@ -15,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     async function carregarUsuarios() {
         try {
-            const resposta = await fetch(usuarios_url);
+            const resposta = await Auth.fetchWithAuth(usuarios_url);
             if (!resposta.ok) throw new Error('Erro ao buscar usuários');
             const usuarios = await resposta.json();
             usuarios.forEach(usuario => {
@@ -28,9 +33,10 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error('Erro ao carregar usuários:', erro);
         }
     }
+
     async function carregarEquipes() {
         try {
-            const resposta = await fetch(equipes_url);
+            const resposta = await Auth.fetchWithAuth(equipes_url);
             if (!resposta.ok) throw new Error('Erro ao buscar equipes');
             const equipes = await resposta.json();
             equipes.forEach(equipe => {
@@ -43,6 +49,7 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error('Erro ao carregar equipes:', erro);
         }
     }
+
     carregarUsuarios();
     carregarEquipes();
 
@@ -67,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function () {
         };
 
         try {
-            const responseProcesso = await fetch(api_url, {
+            const responseProcesso = await Auth.fetchWithAuth(api_url, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(novoProcesso)
@@ -87,7 +94,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 formDataArquivo.append('proprietarioId', novoProcessoId);
                 formDataArquivo.append('tipo', 'PROCESSO');
 
-                const responseRelatorio = await fetch(relatorios_url, {
+                const responseRelatorio = await Auth.fetchWithAuth(relatorios_url, {
                     method: 'POST',
                     body: formDataArquivo
                 });

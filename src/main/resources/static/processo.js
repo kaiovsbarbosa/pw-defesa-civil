@@ -1,4 +1,10 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
+
+    const token = Auth.getToken();
+    if (!token) {
+        window.location.href = 'telaLogin.html';
+        return;
+    }
 
     function atualizarTotalProcessos() {
         fetch('http://localhost:8080/api/processos/total')

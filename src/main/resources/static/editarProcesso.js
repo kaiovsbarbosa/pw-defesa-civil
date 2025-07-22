@@ -4,8 +4,15 @@ const api_equipes_url = 'http://localhost:8080/api/equipes';
 const api_relatorios_url = 'http://localhost:8080/relatorios';
 
 const form = document.querySelector('form');
-const selectCriador = document.querySelector('select[aria-label="select creator"]');
-const selectEquipe = document.querySelector('select[aria-label="select team"]');
+const selectCriador = document.getElementById('criador');
+const selectEquipe = document.getElementById('equipe');
+
+document.addEventListener('DOMContentLoaded', () => {
+    if (!Auth.getToken()) {
+        window.location.href = 'telaLogin.html';
+        return;
+    }
+});
 
 form.addEventListener('submit', async function (event) {
     event.preventDefault();
@@ -32,7 +39,7 @@ form.addEventListener('submit', async function (event) {
     };
 
     try {
-        const respostaProcesso = await fetch(`${api_processos_url}/${processoId}`, {
+        const respostaProcesso = await Auth.fetchWithAuth(`${api_processos_url}/${processoId}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(dadosAtualizados)
@@ -51,7 +58,7 @@ form.addEventListener('submit', async function (event) {
             formDataArquivo.append('proprietarioId', processoId);
             formDataArquivo.append('tipo', 'PROCESSO');
 
-            const respostaRelatorio = await fetch(api_relatorios_url, {
+            const respostaRelatorio = await Auth.fetchWithAuth(api_relatorios_url, {
                 method: 'POST',
                 body: formDataArquivo
             });
