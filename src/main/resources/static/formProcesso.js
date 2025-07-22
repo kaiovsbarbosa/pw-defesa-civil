@@ -49,9 +49,15 @@ document.addEventListener('DOMContentLoaded', function () {
     form.addEventListener('submit', async function (event) {
         event.preventDefault();
 
+        const dataInput = document.getElementById('data').value;
+        if (!dataInput) {
+            alert('Por favor, selecione uma data.');
+            return;
+        }
+
         const novoProcesso = {
             tipo: document.getElementById('tipo').value,
-            data: formatDateToLocalDateTime(document.getElementById('data').value),
+            data: formatDateToLocalDateTime(dataInput),
             status: document.getElementById('status').value,
             localizacao: document.getElementById('localizacao').value,
             equipamento: document.getElementById('equipamento').value,
@@ -74,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const processoSalvo = await responseProcesso.json();
             const novoProcessoId = processoSalvo.id;
             const relatorioFile = relatorioInput.files[0];
-            
+
             if (relatorioFile) {
                 const formDataArquivo = new FormData();
                 formDataArquivo.append('arquivo', relatorioFile);

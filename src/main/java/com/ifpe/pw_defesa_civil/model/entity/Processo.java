@@ -19,18 +19,15 @@ public class Processo {
     @Column(name = "tipo", nullable = false)
     private TipoProcesso tipo;
 
-    @Column(name = "data_inicio", nullable = false) //considerar apenas como data
-    private LocalDateTime dataInicio;
-
-    @Column(name = "data_fim") //desconsiderar
-    private LocalDateTime dataFim;
+    @Column(name = "data", nullable = false)
+    private LocalDateTime data;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private StatusProcesso status = StatusProcesso.EM_ANDAMENTO;
 
-    @Column(name = "localizacao_descricao", columnDefinition = "text") //mudar para local/localizacao
-    private String localizacaoDescricao;
+    @Column(name = "localizacao", columnDefinition = "text")
+    private String localizacao;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "criado_por_usuario_id", nullable = true)
@@ -66,17 +63,10 @@ public class Processo {
     }
 
     public LocalDateTime getDataInicio() {
-        return dataInicio;
+        return data;
     }
     public void setDataInicio(LocalDateTime dataInicio) {
-        this.dataInicio = dataInicio;
-    }
-
-    public LocalDateTime getDataFim() {
-        return dataFim;
-    }
-    public void setDataFim(LocalDateTime dataFim) {
-        this.dataFim = dataFim;
+        this.data = dataInicio;
     }
 
     public StatusProcesso getStatus() {
@@ -87,10 +77,10 @@ public class Processo {
     }
 
     public String getLocalizacaoDescricao() {
-        return localizacaoDescricao;
+        return localizacao;
     }
     public void setLocalizacaoDescricao(String localizacaoDescricao) {
-        this.localizacaoDescricao = localizacaoDescricao;
+        this.localizacao = localizacaoDescricao;
     }
 
     public Usuario getCriadoPor() {
@@ -113,12 +103,7 @@ public class Processo {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
-    // public String getCidadeBairro() {
-    //     return cidadeBairro;
-    // }
-    // public void setCidadeBairro(String cidadeBairro) {
-    //     this.cidadeBairro = cidadeBairro;
-    // }
+
     public String getEquipamento() {
         return equipamento;
     }
