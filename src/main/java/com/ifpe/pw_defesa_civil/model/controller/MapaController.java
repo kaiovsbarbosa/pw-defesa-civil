@@ -3,6 +3,8 @@ package com.ifpe.pw_defesa_civil.model.controller;
 import java.util.List;
 import java.util.Optional;
 
+import com.ifpe.pw_defesa_civil.model.dto.MapaDTO;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,10 +13,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
-import com.ifpe.pw_defesa_civil.model.entity.Mapa;
 import com.ifpe.pw_defesa_civil.service.MapaService;
 
+@RestController
 public class MapaController {
 
     private final MapaService mapaService;
@@ -25,33 +28,34 @@ public class MapaController {
 
     @GetMapping
     @PreAuthorize("hasRole('Administrador') OR hasRole('Operador') OR hasRole('Visualizador')")
-    public List<Mapa> findAll() {
+    public List<MapaDTO> findAll() {
         return mapaService.findAll();
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('Administrador') OR hasRole('Operador') OR hasRole('Visualizador')")
-    public ResponseEntity<Mapa> findById(@PathVariable Long id) {
-        Optional<Mapa> mapa = mapaService.findById(id);
-        return mapa.map(ResponseEntity::ok)
+    public ResponseEntity<MapaDTO> findById(@PathVariable Long id) {
+        Optional<MapaDTO> mapaDTO = mapaService.findById(id);
+        return mapaDTO.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
     @PreAuthorize("hasRole('Administrador') OR hasRole('Operador')")
-    public Mapa create(@RequestBody Mapa mapa) {
-        return mapaService.save(mapa);
+    public ResponseEntity<MapaDTO> create(@RequestBody MapaDTO mapaDTO) {
+        MapaDTO savedMapaDTO = mapaService.save(mapaDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedMapaDTO);
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('Administrador') OR hasRole('Operador')")
-    public ResponseEntity<Mapa> update(@PathVariable Long id, @RequestBody Mapa mapa) {
+    public ResponseEntity<MapaDTO> update(@PathVariable Long id, @RequestBody MapaDTO mapaDTO) {
         if (mapaService.findById(id).isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        mapa.setId(id);
-        Mapa updated = mapaService.save(mapa);
-        return ResponseEntity.ok(updated);
+        mapaDTO.setId(id);
+        MapaDTO updatedDTO = mapaService.save(mapaDTO);
+        return ResponseEntity.ok(updatedDTO);
     }
 
     @DeleteMapping("/{id}")
