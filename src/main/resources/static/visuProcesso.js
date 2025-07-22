@@ -1,9 +1,14 @@
 document.addEventListener('DOMContentLoaded', async function () {
     const api_processos_url = 'http://localhost:8080/api/processos';
 
-    const selectCriador = document.querySelector('select[aria-label="select creator"]');
-    const selectEquipe = document.querySelector('select[aria-label="select team"]');
+    const selectCriador = document.getElementById('criador');
+    const selectEquipe = document.getElementById('equipe');
     const btnEnviar = document.querySelector('button[type="submit"]');
+
+    if (!Auth.getToken()) {
+        window.location.href = 'telaLogin.html';
+        return;
+    }
 
     if (btnEnviar) {
         btnEnviar.style.display = 'none';
@@ -19,7 +24,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     }
 
     try {
-        const resposta = await fetch(`${api_processos_url}/${processoId}`);
+        const resposta = await Auth.fetchWithAuth(`${api_processos_url}/${processoId}`);
 
         if (!resposta.ok) {
             throw new Error('Erro ao carregar os dados do processo. Verifique o ID e tente novamente.');
