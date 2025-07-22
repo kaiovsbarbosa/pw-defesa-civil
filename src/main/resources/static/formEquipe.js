@@ -1,4 +1,9 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
+    if (!Auth.getToken()) {
+        window.location.href = 'telaLogin.html';
+        return;
+    }
+
     const apiEquipes = 'http://localhost:8080/api/equipes';
     const apiUsuarios = 'http://localhost:8080/api/usuarios';
 
@@ -8,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     async function carregarMembros() {
         try {
-            const res = await fetch(apiUsuarios);
+            const res = await Auth.fetchWithAuth(apiUsuarios);
             if (!res.ok) throw new Error('Erro ao buscar usuários');
             const usuarios = await res.json();
 
@@ -28,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     carregarMembros();
 
-    form.addEventListener('submit', function(event) {
+    form.addEventListener('submit', function (event) {
         event.preventDefault();
 
         const nomeEquipe = inputNomeEquipe.value.trim();
@@ -55,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         async function salvarEquipe() {
             try {
-                const response = await fetch(apiEquipes, {
+                const response = await Auth.fetchWithAuth(apiEquipes, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(novaEquipe)

@@ -1,8 +1,13 @@
 const api_url = 'http://localhost:8080/api/equipes';
 
 async function carregarEquipes() {
+    if (!Auth.getToken()) {
+        window.location.href = 'telaLogin.html';
+        return;
+    }
+
     try {
-        const resposta = await fetch(api_url);
+        const resposta = await Auth.fetchWithAuth(api_url);
         if (!resposta.ok) throw new Error('Erro ao buscar equipes');
         const equipes = await resposta.json();
         renderizarTabela(equipes);
@@ -54,7 +59,7 @@ async function excluirEquipe(id) {
     if (!confirmou) return;
 
     try {
-        const resposta = await fetch(`${api_url}/${id}`, {
+        const resposta = await Auth.fetchWithAuth(`${api_url}/${id}`, {
             method: 'DELETE'
         });
         if (!resposta.ok) throw new Error('Erro ao excluir equipe');

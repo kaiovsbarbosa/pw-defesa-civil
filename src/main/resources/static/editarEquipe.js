@@ -2,6 +2,11 @@ const api_url_equipes = 'http://localhost:8080/api/equipes';
 const api_url_usuarios = 'http://localhost:8080/api/usuarios';
 
 document.addEventListener('DOMContentLoaded', async function () {
+    if (!Auth.getToken()) {
+        window.location.href = 'telaLogin.html';
+        return;
+    }
+
     const urlParams = new URLSearchParams(window.location.search);
     const equipeId = urlParams.get('id');
 
@@ -17,7 +22,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     let todosUsuarios = [];
 
     try {
-        const respostaUsuarios = await fetch(api_url_usuarios);
+        const respostaUsuarios = await Auth.fetchWithAuth(api_url_usuarios);
         if (!respostaUsuarios.ok) throw new Error('Erro ao buscar usuários');
         todosUsuarios = await respostaUsuarios.json();
 
@@ -28,7 +33,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             membrosSelect.appendChild(option);
         });
 
-        const respostaEquipe = await fetch(`${api_url_equipes}/${equipeId}`);
+        const respostaEquipe = await Auth.fetchWithAuth(`${api_url_equipes}/${equipeId}`);
         if (!respostaEquipe.ok) throw new Error('Erro ao buscar equipe');
         const equipe = await respostaEquipe.json();
 
@@ -60,7 +65,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         };
 
         try {
-            const resposta = await fetch(`${api_url_equipes}/${equipeId}`, {
+            const resposta = await Auth.fetchWithAuth(`${api_url_equipes}/${equipeId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'

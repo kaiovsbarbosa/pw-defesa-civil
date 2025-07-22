@@ -1,8 +1,14 @@
 const api_url = 'http://localhost:8080/api/usuarios';
 
-async function carregarUsuarios() {
+document.addEventListener('DOMContentLoaded', async function () {
+    const token = Auth.getToken();
+    if (!token) {
+        window.location.href = 'login.html';
+        return;
+    }
+
     try {
-        const resposta = await fetch(api_url);
+        const resposta = await Auth.fetchWithAuth(api_url);
         if (!resposta.ok) throw new Error('Erro ao buscar usuários');
         const usuarios = await resposta.json();
         renderizarTabela(usuarios);
@@ -10,7 +16,7 @@ async function carregarUsuarios() {
         console.error('Erro ao carregar usuários:', erro);
         alert('Erro ao carregar usuários. Tente novamente mais tarde.');
     }
-}
+});
 
 function renderizarTabela(usuarios) {
     const corpoTabela = document.getElementById('tabelaUsuarios');
@@ -37,31 +43,28 @@ function renderizarTabela(usuarios) {
                 </button>
             </td>
         `;
+
         corpoTabela.appendChild(tr);
     });
 }
 
-
 function editarUsuario(id) {
     window.location.href = `editarUsuario.html?id=${id}`;
 }
-
 
 async function excluirUsuario(id) {
     const confirmou = confirm("Tem certeza que deseja excluir este usuário?");
     if (!confirmou) return;
 
     try {
-        const resposta = await fetch(`${api_url}/${id}`, {
+        const resposta = await Auth.fetchWithAuth(`${api_url}/${id}`, {
             method: 'DELETE'
         });
         if (!resposta.ok) throw new Error('Erro ao excluir usuário');
         alert('Usuário excluído com sucesso!');
-        carregarUsuarios();
+        location.reload();
     } catch (erro) {
         console.error('Erro ao excluir usuário:', erro);
-        alert('Erro ao excluir o . Tente novamente.');
+        alert('Erro ao excluir o usuário. Tente novamente.');
     }
 }
-
-document.addEventListener('DOMContentLoaded', carregarUsuarios);

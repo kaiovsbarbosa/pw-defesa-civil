@@ -3,6 +3,11 @@ document.addEventListener('DOMContentLoaded', async function () {
     const urlParams = new URLSearchParams(window.location.search);
     const usuarioId = urlParams.get('id');
 
+    if (!Auth.getToken()) {
+        window.location.href = 'telaLogin.html';
+        return;
+    }
+
     if (!usuarioId) {
         alert('ID do usuário não fornecido.');
         window.location.href = 'listaUsuarios.html';
@@ -10,7 +15,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     }
 
     try {
-        const resposta = await fetch(`${api_url}/${usuarioId}`);
+        const resposta = await Auth.fetchWithAuth(`${api_url}/${usuarioId}`);
         if (!resposta.ok) throw new Error('Erro ao carregar usuário');
         const usuario = await resposta.json();
 
@@ -19,13 +24,11 @@ document.addEventListener('DOMContentLoaded', async function () {
         if (usuario.perfilId) {
             document.getElementById('perfil').value = usuario.perfilId;
         }
-
     } catch (erro) {
         console.error('Erro ao carregar usuário:', erro);
         alert('Erro ao carregar dados do usuário.');
         window.location.href = 'listaUsuarios.html';
     }
-
 
     const form = document.querySelector('form');
     form.addEventListener('submit', async function (event) {
@@ -43,18 +46,16 @@ document.addEventListener('DOMContentLoaded', async function () {
         }
 
         try {
-            const resposta = await fetch(`${api_url}/${usuarioId}`, {
+            const resposta = await Auth.fetchWithAuth(`${api_url}/${usuarioId}`, {
                 method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(dadosAtualizados)
             });
 
             if (!resposta.ok) {
-                 const errorData = await response.json();
-                 const errorMessage = errorData.message || `Erro ao atualizar Usuário: ${response.statusText}`;
-                 throw new Error(errorMessage);
+                const errorData = await resposta.json();
+                const errorMessage = errorData.message || `Erro ao atualizar Usuário: ${resposta.statusText}`;
+                throw new Error(errorMessage);
             }
 
             alert('Usuário atualizado com sucesso!');

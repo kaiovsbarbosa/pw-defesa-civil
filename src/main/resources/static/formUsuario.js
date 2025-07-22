@@ -1,7 +1,13 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const api_url = 'http://localhost:8080/api/usuarios';
+
+    if (!Auth.getToken()) {
+        window.location.href = 'telaLogin.html';
+        return;
+    }
+
     const form = document.querySelector('form');
-    form.addEventListener('submit', function(event) {
+    form.addEventListener('submit', function (event) {
         event.preventDefault();
 
         const nome = document.getElementById('nome').value;
@@ -18,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         async function salvarUsuario() {
             try {
-                const response = await fetch(api_url, {
+                const response = await Auth.fetchWithAuth(api_url, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -41,7 +47,5 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         salvarUsuario();
-
-        console.log("Enviando para API:", novoUsuario);
     });
 });
