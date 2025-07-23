@@ -27,8 +27,10 @@ public class UsuarioController {
 
     @GetMapping
     @PreAuthorize("hasRole('Administrador') OR hasRole('Operador') OR hasRole('Visualizador')")
-    public List<Usuario> findAll() {
-        return usuarioService.findAll();
+    public List<UsuarioDTO> findAll() {
+        return usuarioService.findAll().stream()
+                .map(UsuarioDTO::fromEntity)
+                .toList();
     }
 
     @GetMapping("/{id}")
@@ -49,12 +51,12 @@ public class UsuarioController {
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('Administrador') OR hasRole('Operador')")
     public ResponseEntity<UsuarioDTO> update(@PathVariable Long id,
-        @RequestBody @Valid AtualizarUsuarioDTO usuarioUpdateDTO) {
+            @RequestBody @Valid AtualizarUsuarioDTO usuarioUpdateDTO) {
         Optional<Usuario> usuarioExistente = usuarioService.findById(id);
         if (usuarioExistente.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        
+
         Usuario usuarioAtualizado = usuarioService.update(id, usuarioUpdateDTO);
         return ResponseEntity.ok(UsuarioDTO.fromEntity(usuarioAtualizado));
     }

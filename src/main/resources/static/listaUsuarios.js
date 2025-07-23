@@ -28,12 +28,13 @@ function renderizarTabela(usuarios) {
     }
 
     usuarios.forEach(usuario => {
-        const tr = document.createElement('tr');
+        const perfilTipo = usuario.perfilTipo ?? 'Sem perfil';
 
+        const tr = document.createElement('tr');
         tr.innerHTML = `
             <td>${usuario.nome}</td>
             <td>${usuario.email}</td>
-            <td>${usuario.perfilTipo || 'Sem perfil'}</td>
+            <td>${perfilTipo}</td>
             <td class="text-center">
                 <button class="btn btn-primary btn-sm" onclick="editarUsuario(${usuario.id})" title="Editar">
                     <i class="fa fa-pencil"></i>
@@ -43,7 +44,6 @@ function renderizarTabela(usuarios) {
                 </button>
             </td>
         `;
-
         corpoTabela.appendChild(tr);
     });
 }

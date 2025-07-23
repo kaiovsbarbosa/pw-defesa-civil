@@ -37,7 +37,7 @@ function renderizarTabela(processos) {
             ? new Date(processo.data).toLocaleDateString('pt-BR') 
             : '';
 
-        const responsavel = processo.criadoPor ? processo.criadoPor.nome : 'Não atribuído';
+        const responsavel = processo.criadoPorNome || 'Não atribuído';
         const tipo = capitalizarTexto(processo.tipo);
 
         tr.innerHTML = `
@@ -46,9 +46,9 @@ function renderizarTabela(processos) {
             <td>${data}</td>
             <td class="text-center">
                 <button class="btn btn-primary btn-sm" onclick="visuProcesso(${processo.id})" title="Visualizar">
-                    <i class="fa-solid fa-eye"></i>
+                    <i class="fa fa-eye"></i>
                 </button>
-                <button class="btn btn-warning btn-sm" onclick="editarProcesso(${processo.id})" title="Editar">
+                <button class="btn btn-warning btn-sm ms-2" onclick="editarProcesso(${processo.id})" title="Editar">
                     <i class="fa fa-pencil"></i>
                 </button>
                 <button class="btn btn-danger btn-sm ms-2" onclick="excluirProcesso(${processo.id})" title="Deletar">

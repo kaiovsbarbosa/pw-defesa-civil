@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     const token = Auth.getToken();
     if (!token) {
-        window.location.href = 'telaLogin.html'; // Redirecionar para login se não houver token
+        window.location.href = 'telaLogin.html';
         return;
     }
 

@@ -33,6 +33,7 @@ function renderizarTabela(equipes) {
             ? equipe.membros.map(m => m.nome).join(', ')
             : 'Sem membros';
 
+
         tr.innerHTML = `
             <td>${equipe.nomeEquipe}</td>
             <td>${membros}</td>

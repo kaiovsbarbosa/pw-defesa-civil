@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
         try {
             const success = await Auth.login(email, password);
             if (success) {
-                window.location.href = 'processo.html'; // Redirecionar após login bem-sucedido
+                window.location.href = 'processo.html';
             }
         } catch (error) {
             loginError.textContent = error.message || 'Erro inesperado. Tente novamente.';
