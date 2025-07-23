@@ -2,7 +2,7 @@
 const Auth = {
     login: async (email, password) => {
         try {
-            const response = await fetch('/login', {
+            const response = await fetch('http://localhost:8080/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ usuario: email, senha: password })

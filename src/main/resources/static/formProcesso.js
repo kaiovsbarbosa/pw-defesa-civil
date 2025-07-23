@@ -69,8 +69,8 @@ document.addEventListener('DOMContentLoaded', function () {
             localizacao: document.getElementById('localizacao').value,
             equipamento: document.getElementById('equipamento').value,
             descricao: document.getElementById('descricao').value,
-            criadoPor: selectCriador.value ? { id: parseInt(selectCriador.value) } : null,
-            equipe: selectEquipe.value ? { id: parseInt(selectEquipe.value) } : null
+            criadoPorId: selectCriador.value ? parseInt(selectCriador.value) : null,
+            equipeId: selectEquipe.value ? parseInt(selectEquipe.value) : null
         };
 
         try {

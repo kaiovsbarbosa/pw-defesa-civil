@@ -10,8 +10,10 @@ document.addEventListener('DOMContentLoaded', function () {
         const password = document.getElementById('password').value;
 
         try {
-            await Auth.login(email, password);
-            window.location.href = 'processo.html';
+            const success = await Auth.login(email, password);
+            if (success) {
+                window.location.href = 'processo.html'; // Redirecionar após login bem-sucedido
+            }
         } catch (error) {
             loginError.textContent = error.message || 'Erro inesperado. Tente novamente.';
             loginError.classList.remove('d-none');

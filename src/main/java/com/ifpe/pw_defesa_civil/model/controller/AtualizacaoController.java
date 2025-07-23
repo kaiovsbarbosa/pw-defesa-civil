@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/api/atualizacoes")
 public class AtualizacaoController {
 
     private final AtualizacaoService atualizacaoService;

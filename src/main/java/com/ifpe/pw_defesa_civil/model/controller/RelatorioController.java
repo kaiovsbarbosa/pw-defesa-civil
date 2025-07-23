@@ -17,7 +17,7 @@ import com.ifpe.pw_defesa_civil.model.dto.RelatorioDTO;
 import com.ifpe.pw_defesa_civil.service.RelatorioService;
 
 @RestController
-@RequestMapping("/relatorios")
+@RequestMapping("api/relatorios")
 public class RelatorioController {
 
     private final RelatorioService relatorioService;
