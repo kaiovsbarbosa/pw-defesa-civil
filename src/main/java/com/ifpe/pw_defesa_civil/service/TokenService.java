@@ -18,7 +18,7 @@ import com.ifpe.pw_defesa_civil.model.entity.Usuario;
 @Service
 public class TokenService {
     
-    // @Value(value = "${JWT_SECRET}")
+//    @Value(value = "${JWT_SECRET}")
     private String secret = "6AtXL/il1n5CR0YX3CfmPlEk1+OMK4M0QcZkhMwGr7M=";
 
         public String gerarToken(Usuario usuario){

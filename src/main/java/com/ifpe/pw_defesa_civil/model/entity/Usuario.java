@@ -47,12 +47,7 @@ public class Usuario implements UserDetails{
     @JsonBackReference
     private Perfil perfil;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-        name = "membrosequipe",
-        joinColumns = @JoinColumn(name = "usuario_id"),
-        inverseJoinColumns = @JoinColumn(name = "equipe_id")
-    )
+    @ManyToMany(mappedBy = "membros")
     private List<Equipe> equipes = new ArrayList<>();
 
     @OneToMany(mappedBy = "criadoPor")
