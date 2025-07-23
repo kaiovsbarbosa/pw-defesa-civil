@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const novaEquipe = {
             nomeEquipe,
-            membros: membrosSelecionados
+            membrosIds: Array.from(selectMembros.selectedOptions).map(option => Number(option.value))
         };
 
         async function salvarEquipe() {

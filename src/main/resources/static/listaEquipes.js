@@ -1,4 +1,6 @@
 const api_url = 'http://localhost:8080/api/equipes';
+const api_usuarios = 'http://localhost:8080/api/usuarios';
+let mapaUsuarios = new Map();
 
 async function carregarEquipes() {
     if (!Auth.getToken()) {
@@ -7,9 +9,16 @@ async function carregarEquipes() {
     }
 
     try {
+        const resUsuarios = await Auth.fetchWithAuth(api_usuarios);
+        if (!resUsuarios.ok) throw new Error('Erro ao buscar usuários');
+        const usuarios = await resUsuarios.json();
+        usuarios.forEach(user => mapaUsuarios.set(user.id, user.nome));
+
+        // Carrega todas as equipes
         const resposta = await Auth.fetchWithAuth(api_url);
         if (!resposta.ok) throw new Error('Erro ao buscar equipes');
         const equipes = await resposta.json();
+
         renderizarTabela(equipes);
     } catch (erro) {
         console.error('Erro ao carregar equipes:', erro);
@@ -29,14 +38,13 @@ function renderizarTabela(equipes) {
     equipes.forEach(equipe => {
         const tr = document.createElement('tr');
 
-        const membros = equipe.membros && equipe.membros.length > 0
-            ? equipe.membros.map(m => m.nome).join(', ')
+        const nomesMembros = equipe.membrosIds && equipe.membrosIds.length > 0
+            ? equipe.membrosIds.map(id => mapaUsuarios.get(id) || `ID ${id}`).join(', ')
             : 'Sem membros';
-
 
         tr.innerHTML = `
             <td>${equipe.nomeEquipe}</td>
-            <td>${membros}</td>
+            <td>${nomesMembros}</td>
             <td class="text-center">
                 <button class="btn btn-primary btn-sm" onclick="editarEquipe(${equipe.id})" title="Editar">
                     <i class="fa fa-pencil"></i>

@@ -39,10 +39,12 @@ document.addEventListener('DOMContentLoaded', async function () {
 
         nomeInput.value = equipe.nomeEquipe;
 
-        equipe.membros.forEach(membro => {
-            const option = [...membrosSelect.options].find(opt => opt.value == membro.id);
-            if (option) option.selected = true;
-        });
+        if (equipe.membrosIds) {
+            equipe.membrosIds.forEach(id => {
+                const option = [...membrosSelect.options].find(opt => Number(opt.value) === id);
+                if (option) option.selected = true;
+            });
+        }
 
     } catch (erro) {
         console.error('Erro ao carregar dados:', erro);
@@ -54,14 +56,17 @@ document.addEventListener('DOMContentLoaded', async function () {
     form.addEventListener('submit', async function (event) {
         event.preventDefault();
 
-        const nomeEquipe = nomeInput.value;
-        const membrosSelecionados = [...membrosSelect.selectedOptions].map(opt => ({
-            id: Number(opt.value)
-        }));
+        const nomeEquipe = nomeInput.value.trim();
+        if (!nomeEquipe) {
+            alert('Por favor, informe o nome da equipe.');
+            return;
+        }
+
+        const membrosSelecionados = [...membrosSelect.selectedOptions].map(opt => Number(opt.value));
 
         const dadosAtualizados = {
             nomeEquipe,
-            membros: membrosSelecionados
+            membrosIds: membrosSelecionados
         };
 
         try {
