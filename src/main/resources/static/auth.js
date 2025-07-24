@@ -37,7 +37,7 @@ const Auth = {
             });
         }
         localStorage.clear();
-        window.location.href = 'login.html';
+        window.location.href = 'telaLogin.html';
     },
 
     getToken: () => {
