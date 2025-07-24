@@ -1,9 +1,14 @@
 package com.ifpe.pw_defesa_civil.model.controller;
 
+import java.time.Duration;
+
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +22,7 @@ import com.ifpe.pw_defesa_civil.service.TokenService;
 import com.ifpe.pw_defesa_civil.util.TokenBlackList;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
 @RestController
@@ -38,7 +44,8 @@ public class AutenticacaoController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<DadosToken> efetuarLogin(@Valid @RequestBody DadosLogin dados){
+    public ResponseEntity<DadosToken> efetuarLogin(@Valid @RequestBody DadosLogin dados,
+        HttpServletResponse response){
         System.out.println(usuarioRepository.findByEmailIgnoreCase("adm@email.com"));
         var autenticationToken = new UsernamePasswordAuthenticationToken(dados.usuario(), dados.senha());
         var authentication = authenticationManager.authenticate(autenticationToken);
@@ -46,17 +53,35 @@ public class AutenticacaoController {
         String tokenAcesso = tokenService.gerarToken((Usuario) authentication.getPrincipal());
         String refreshToken = tokenService.gerarRefreshToken((Usuario) authentication.getPrincipal());
 
+        ResponseCookie cookie = ResponseCookie
+            .from("JWT", tokenAcesso)
+            .httpOnly(true)
+            .secure(true) 
+            .sameSite("Strict") 
+            .path("/")
+            .maxAge(Duration.ofMinutes(720))                    
+            .build();                                            
+
+        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+
         return ResponseEntity.ok(new DadosToken(tokenAcesso, refreshToken));
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<String> efetuarLogout(HttpServletRequest request){
-        String token = recuperarTokenRequisicao(request);
-        if (token != null) {
-            tokenBlackList.addToBlacklist(token);
+    public ResponseEntity<String> efetuarLogout(HttpServletResponse response,
+                @CookieValue("JWT") String jwt){
+        if (jwt != null) {
+            tokenBlackList.addToBlacklist(jwt);
         }
-        SecurityContextHolder.clearContext();
-        return ResponseEntity.ok("Logout efetuado com sucesso!");
+        ResponseCookie cookie = ResponseCookie.from("JWT", "")
+            .path("/")
+            .maxAge(0)          
+            .httpOnly(true)
+            .secure(true)
+            .sameSite("Strict")
+            .build();
+        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/refresh-token")

@@ -15,6 +15,7 @@ import com.ifpe.pw_defesa_civil.util.TokenBlackList;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -48,9 +49,16 @@ public class FiltroTokenAcesso extends OncePerRequestFilter{
     }
 
     private String recuperarTokenRequisicao(HttpServletRequest request) {
-        var authorizationHeader = request.getHeader("Authorization");
-        if(authorizationHeader != null){
-            return authorizationHeader.replace("Bearer ", "");
+        String authHeader = request.getHeader("Authorization");
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            return authHeader.substring(7);
+        }
+        if (request.getCookies() != null) {
+            for (Cookie c : request.getCookies()) {
+                if ("JWT".equals(c.getName())) {
+                    return c.getValue();
+                }
+            }
         }
         return null;
     }
