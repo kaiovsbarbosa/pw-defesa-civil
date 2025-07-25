@@ -1,2 +1,2 @@
 minio
-fastapi
+fastapi[all]
