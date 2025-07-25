@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const api_url = 'http://localhost:8081/api/processos';
     const usuarios_url = 'http://localhost:8081/api/usuarios';
     const equipes_url = 'http://localhost:8081/api/equipes';
-    const bucket_url = 'https://a438451da7c2.ngrok-free.app/upload';
+    const bucket_url = 'https://73247bccb942.ngrok-free.app/upload';
 
     const form = document.querySelector('form');
     const selectCriador = document.getElementById('criador');

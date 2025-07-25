@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', async function () {
     const api_processos_url = 'http://localhost:8081/api/processos';
-    const bucket_url = 'https://a438451da7c2.ngrok-free.app/view/';
+    const bucket_url = 'https://73247bccb942.ngrok-free.app/view/';
 
     const selectCriador = document.getElementById('criador');
     const selectEquipe = document.getElementById('equipe');
