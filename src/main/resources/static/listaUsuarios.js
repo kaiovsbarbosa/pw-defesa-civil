@@ -1,4 +1,4 @@
-const api_url = 'http://localhost:8080/api/usuarios';
+const api_url = 'http://localhost:8081/api/usuarios';
 
 document.addEventListener('DOMContentLoaded', async function () {
     const token = Auth.getToken();

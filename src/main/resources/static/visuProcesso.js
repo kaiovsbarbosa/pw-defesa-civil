@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', async function () {
-    const api_processos_url = 'http://localhost:8080/api/processos';
-    const bucket_url = 'https://8d6807fabce5.ngrok-free.app/view/';
+    const api_processos_url = 'http://localhost:8081/api/processos';
+    const bucket_url = 'https://a438451da7c2.ngrok-free.app/view/';
 
     const selectCriador = document.getElementById('criador');
     const selectEquipe = document.getElementById('equipe');
@@ -38,6 +38,18 @@ document.addEventListener('DOMContentLoaded', async function () {
         document.getElementById('localizacao').value = processo.localizacao || '';
         document.getElementById('equipamento').value = processo.equipamento || '';
         document.getElementById('descricao').value = processo.descricao || '';
+
+        if (processo.criadoPorNome) {
+            selectCriador.innerHTML = `<option>${processo.criadoPorNome}</option>`;
+        } else {
+            selectCriador.innerHTML = `<option>Não definido</option>`;
+        }
+
+        if (processo.equipeNome) {
+            selectEquipe.innerHTML = `<option>${processo.equipeNome}</option>`;
+        } else {
+            selectEquipe.innerHTML = `<option>Não definida</option>`;
+        }
 
         if (processo.arquivo) {
             const link = `${bucket_url}${encodeURIComponent(processo.arquivo)}`;
@@ -78,18 +90,6 @@ document.addEventListener('DOMContentLoaded', async function () {
 
         if (processo.data) {
             document.getElementById('data').value = processo.data.split('T')[0];
-        }
-
-        if (processo.criadoPor) {
-            selectCriador.innerHTML = `<option>${processo.criadoPor.nome}</option>`;
-        } else {
-            selectCriador.innerHTML = `<option>Não definido</option>`;
-        }
-
-        if (processo.equipe) {
-            selectEquipe.innerHTML = `<option>${processo.equipe.nomeEquipe}</option>`;
-        } else {
-            selectEquipe.innerHTML = `<option>Não definida</option>`;
         }
 
     } catch (error) {

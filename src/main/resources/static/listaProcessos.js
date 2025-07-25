@@ -1,4 +1,4 @@
-const api_url = 'http://localhost:8080/api/processos';
+const api_url = 'http://localhost:8081/api/processos';
 
 document.addEventListener('DOMContentLoaded', () => {
     if (!Auth.getToken()) {

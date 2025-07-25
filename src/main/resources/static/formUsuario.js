@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const api_url = 'http://localhost:8080/api/usuarios';
+    const api_url = 'http://localhost:8081/api/usuarios';
 
     if (!Auth.getToken()) {
         window.location.href = 'telaLogin.html';

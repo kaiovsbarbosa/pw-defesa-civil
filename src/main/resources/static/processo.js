@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     async function atualizarTotalProcessos() {
         try {
-            const response = await Auth.fetchWithAuth('http://localhost:8080/api/processos/total', {
+            const response = await Auth.fetchWithAuth('http://localhost:8081/api/processos/total', {
                 method: 'GET'
             });
 
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     async function atualizarTotalProcessosAbertos() {
         try {
-            const response = await Auth.fetchWithAuth('http://localhost:8080/api/processos/total/abertos', {
+            const response = await Auth.fetchWithAuth('http://localhost:8081/api/processos/total/abertos', {
                 method: 'GET'
             });
 

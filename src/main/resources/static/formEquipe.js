@@ -4,8 +4,8 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
     }
 
-    const apiEquipes = 'http://localhost:8080/api/equipes';
-    const apiUsuarios = 'http://localhost:8080/api/usuarios';
+    const apiEquipes = 'http://localhost:8081/api/equipes';
+    const apiUsuarios = 'http://localhost:8081/api/usuarios';
 
     const form = document.querySelector('form');
     const selectMembros = document.getElementById('membros');

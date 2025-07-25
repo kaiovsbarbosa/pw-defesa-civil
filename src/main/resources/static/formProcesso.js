@@ -4,10 +4,10 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
     }
 
-    const api_url = 'http://localhost:8080/api/processos';
-    const usuarios_url = 'http://localhost:8080/api/usuarios';
-    const equipes_url = 'http://localhost:8080/api/equipes';
-    const bucket_url = 'https://8d6807fabce5.ngrok-free.app/upload';
+    const api_url = 'http://localhost:8081/api/processos';
+    const usuarios_url = 'http://localhost:8081/api/usuarios';
+    const equipes_url = 'http://localhost:8081/api/equipes';
+    const bucket_url = 'https://a438451da7c2.ngrok-free.app/upload';
 
     const form = document.querySelector('form');
     const selectCriador = document.getElementById('criador');

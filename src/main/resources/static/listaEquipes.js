@@ -1,5 +1,5 @@
-const api_url = 'http://localhost:8080/api/equipes';
-const api_usuarios = 'http://localhost:8080/api/usuarios';
+const api_url = 'http://localhost:8081/api/equipes';
+const api_usuarios = 'http://localhost:8081/api/usuarios';
 let mapaUsuarios = new Map();
 
 async function carregarEquipes() {

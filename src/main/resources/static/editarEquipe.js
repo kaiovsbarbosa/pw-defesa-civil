@@ -1,5 +1,5 @@
-const api_url_equipes = 'http://localhost:8080/api/equipes';
-const api_url_usuarios = 'http://localhost:8080/api/usuarios';
+const api_url_equipes = 'http://localhost:8081/api/equipes';
+const api_url_usuarios = 'http://localhost:8081/api/usuarios';
 
 document.addEventListener('DOMContentLoaded', async function () {
     if (!Auth.getToken()) {

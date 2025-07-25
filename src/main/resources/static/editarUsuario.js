@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', async function () {
-    const api_url = 'http://localhost:8080/api/usuarios';
+    const api_url = 'http://localhost:8081/api/usuarios';
     const urlParams = new URLSearchParams(window.location.search);
     const usuarioId = urlParams.get('id');
 

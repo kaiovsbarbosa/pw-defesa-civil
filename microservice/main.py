@@ -16,7 +16,7 @@ app.add_middleware(
 )
 
 minio_client = Minio(
-    "c5dda1fd8933.ngrok-free.app",
+    "0f4a5f757ce1.ngrok-free.app",
     access_key="minioadmin",
     secret_key="minioadmin",
     secure=True
