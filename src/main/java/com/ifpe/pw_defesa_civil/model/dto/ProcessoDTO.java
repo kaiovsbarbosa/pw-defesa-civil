@@ -3,6 +3,9 @@ package com.ifpe.pw_defesa_civil.model.dto;
 import com.ifpe.pw_defesa_civil.model.entity.Processo;
 import com.ifpe.pw_defesa_civil.model.enums.StatusProcesso;
 import com.ifpe.pw_defesa_civil.model.enums.TipoProcesso;
+
+import jakarta.persistence.Column;
+
 import java.time.LocalDateTime;
 
 public class ProcessoDTO {
@@ -14,6 +17,7 @@ public class ProcessoDTO {
     private String localizacao;
     private String equipamento;
     private String descricao;
+    private String arquivo;
     private Long criadoPorId;
     private Long equipeId;
     private Long relatorioId;
@@ -127,6 +131,7 @@ public class ProcessoDTO {
         dto.setLocalizacao(processo.getLocalizacaoDescricao());
         dto.setEquipamento(processo.getEquipamento());
         dto.setDescricao(processo.getDescricao());
+        dto.setArquivo(processo.getArquivo());
 
         if (processo.getTipo() != null) {
             dto.setTipo(processo.getTipo().name());
@@ -160,6 +165,7 @@ public class ProcessoDTO {
         processo.setLocalizacaoDescricao(this.localizacao);
         processo.setEquipamento(this.equipamento);
         processo.setDescricao(this.descricao);
+        processo.setArquivo(this.arquivo);
 
         try {
             if (this.tipo != null) {
@@ -173,5 +179,13 @@ public class ProcessoDTO {
         }
 
         return processo;
+    }
+
+    public String getArquivo() {
+        return arquivo;
+    }
+
+    public void setArquivo(String arquivo) {
+        this.arquivo = arquivo;
     }
 }
