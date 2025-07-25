@@ -48,6 +48,9 @@ public class Processo {
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "processo")
     private Relatorio relatorio;
 
+    @Column(name = "arquivo", columnDefinition = "text")
+    private String arquivo;
+
     public Long getId() {
         return id;
     }
@@ -115,5 +118,23 @@ public class Processo {
     }
     public void setRelatorio(Relatorio relatorio) {
         this.relatorio = relatorio;
+    }
+    public LocalDateTime getData() {
+        return data;
+    }
+    public void setData(LocalDateTime data) {
+        this.data = data;
+    }
+    public String getLocalizacao() {
+        return localizacao;
+    }
+    public void setLocalizacao(String localizacao) {
+        this.localizacao = localizacao;
+    }
+    public String getArquivo() {
+        return arquivo;
+    }
+    public void setArquivo(String arquivo) {
+        this.arquivo = arquivo;
     }
 }
