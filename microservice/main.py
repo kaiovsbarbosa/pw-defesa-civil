@@ -5,10 +5,7 @@ from minio import Minio
 
 app = FastAPI()
 
-origins = [
-    "http://localhost:8080",
-    "http://seu-frontend.com",
-]
+origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
@@ -19,7 +16,7 @@ app.add_middleware(
 )
 
 minio_client = Minio(
-    "76fce1f188c0.ngrok-free.app",
+    "c5dda1fd8933.ngrok-free.app",
     access_key="minioadmin",
     secret_key="minioadmin",
     secure=True
