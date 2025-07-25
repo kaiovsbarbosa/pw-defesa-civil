@@ -50,6 +50,8 @@ Certifique-se de ter os seguintes softwares instalados:
 - PostgreSQL 14+
 - Git
 - Navegador Web
+- Python 3.12 (requirements na pasta 'microservice')
+- Minio Object Store
 
 ---
 
