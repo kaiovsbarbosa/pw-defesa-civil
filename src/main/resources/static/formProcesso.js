@@ -7,12 +7,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const api_url = 'http://localhost:8080/api/processos';
     const usuarios_url = 'http://localhost:8080/api/usuarios';
     const equipes_url = 'http://localhost:8080/api/equipes';
-    const relatorios_url = 'http://localhost:8080/relatorios';
+    const bucket_url = 'https://8d6807fabce5.ngrok-free.app/upload';
 
     const form = document.querySelector('form');
     const selectCriador = document.getElementById('criador');
     const selectEquipe = document.getElementById('equipe');
-    const relatorioInput = document.getElementById('relatorio');
+    const relatorio = document.getElementById('relatorio');
 
     const formatDateToLocalDateTime = (dateStr) => {
         return dateStr ? `${dateStr}T00:00:00` : null;
@@ -62,6 +62,8 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
+        const arquivoNome = relatorio.files[0].name;
+
         const novoProcesso = {
             tipo: document.getElementById('tipo').value,
             data: formatDateToLocalDateTime(dataInput),
@@ -70,7 +72,8 @@ document.addEventListener('DOMContentLoaded', function () {
             equipamento: document.getElementById('equipamento').value,
             descricao: document.getElementById('descricao').value,
             criadoPorId: selectCriador.value ? parseInt(selectCriador.value) : null,
-            equipeId: selectEquipe.value ? parseInt(selectEquipe.value) : null
+            equipeId: selectEquipe.value ? parseInt(selectEquipe.value) : null,
+            arquivo: arquivoNome
         };
 
         try {
@@ -84,24 +87,21 @@ document.addEventListener('DOMContentLoaded', function () {
                 throw new Error(`Erro ao salvar Processo: ${responseProcesso.statusText}`);
             }
 
-            const processoSalvo = await responseProcesso.json();
-            const novoProcessoId = processoSalvo.id;
-            const relatorioFile = relatorioInput.files[0];
+            const responseRelatorio = await fetch(bucket_url, {
+                method: 'POST',
+                body: (() => {
+                    const formData = new FormData();
+                    const arquivo = relatorio.files[0];
+                    if (!arquivo) {
+                        throw new Error('Selecione um arquivo para o relatório.');
+                    }
+                    formData.append('file', arquivo, arquivo.name);
+                    return formData;
+                })()
+            });
 
-            if (relatorioFile) {
-                const formDataArquivo = new FormData();
-                formDataArquivo.append('arquivo', relatorioFile);
-                formDataArquivo.append('proprietarioId', novoProcessoId);
-                formDataArquivo.append('tipo', 'PROCESSO');
-
-                const responseRelatorio = await Auth.fetchWithAuth(relatorios_url, {
-                    method: 'POST',
-                    body: formDataArquivo
-                });
-
-                if (!responseRelatorio.ok) {
-                    throw new Error('Processo salvo, mas falha ao enviar o relatório.');
-                }
+            if (!responseRelatorio.ok) {
+                throw new Error(`Erro ao enviar relatório: ${responseRelatorio.statusText}`);
             }
 
             alert('Processo salvo com sucesso!');
@@ -111,5 +111,6 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error('Erro na requisição:', error);
             alert(error.message || 'Erro ao salvar processo');
         }
+
     });
 });

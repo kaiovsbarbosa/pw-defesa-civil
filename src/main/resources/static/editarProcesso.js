@@ -1,12 +1,13 @@
 const api_processos_url = 'http://localhost:8080/api/processos';
 const api_usuarios_url = 'http://localhost:8080/api/usuarios';
 const api_equipes_url = 'http://localhost:8080/api/equipes';
-const api_relatorios_url = 'http://localhost:8080/relatorios';
+const bucket_url = 'https://8d6807fabce5.ngrok-free.app/upload';
 
 const form = document.querySelector('form');
 const selectCriador = document.getElementById('criador');
 const selectEquipe = document.getElementById('equipe');
-
+const inputRelatorio = document.getElementById('relatorio');
+const nomeRelatorioAtual = document.getElementById('nome-relatorio-atual');
 
 document.addEventListener('DOMContentLoaded', async () => {
     if (!Auth.getToken()) {
@@ -18,7 +19,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     await carregarEquipes();
     await carregarDadosDoProcesso();
 });
-
 
 async function carregarUsuarios() {
     try {
@@ -36,7 +36,6 @@ async function carregarUsuarios() {
     }
 }
 
-
 async function carregarEquipes() {
     try {
         const resposta = await Auth.fetchWithAuth(api_equipes_url);
@@ -52,7 +51,6 @@ async function carregarEquipes() {
         console.error('Erro ao carregar equipes:', erro);
     }
 }
-
 
 async function carregarDadosDoProcesso() {
     const urlParams = new URLSearchParams(window.location.search);
@@ -77,12 +75,15 @@ async function carregarDadosDoProcesso() {
         if (processo.criadoPorId) selectCriador.value = processo.criadoPorId;
         if (processo.equipeId) selectEquipe.value = processo.equipeId;
 
+        if (processo.arquivo) {
+            nomeRelatorioAtual.textContent = `Relatório atual: ${processo.arquivo}`;
+        }
+
     } catch (erro) {
         console.error('Erro ao carregar processo:', erro);
         alert('Erro ao carregar dados para edição.');
     }
 }
-
 
 form.addEventListener('submit', async function (event) {
     event.preventDefault();
@@ -97,6 +98,8 @@ form.addEventListener('submit', async function (event) {
     const criadoPorId = selectCriador.value;
     const equipeId = selectEquipe.value;
 
+    const arquivoNome = relatorio.files[0].name;
+
     const dadosAtualizados = {
         tipo: document.getElementById('tipo').value,
         data: formatDateToLocalDateTime(document.getElementById('data').value),
@@ -105,10 +108,27 @@ form.addEventListener('submit', async function (event) {
         equipamento: document.getElementById('equipamento').value,
         descricao: document.getElementById('descricao').value,
         criadoPorId: criadoPorId ? parseInt(criadoPorId) : null,
-        equipeId: equipeId ? parseInt(equipeId) : null
+        equipeId: equipeId ? parseInt(equipeId) : null,
+        arquivo: arquivoNome       
+
     };
 
     try {
+        const arquivo = inputRelatorio.files[0];
+        if (arquivo) {
+            const formData = new FormData();
+            formData.append('file', arquivo, arquivo.name);
+
+            const responseUpload = await fetch(bucket_url, {
+                method: 'POST',
+                body: formData
+            });
+
+            if (!responseUpload.ok) {
+                throw new Error(`Erro ao enviar o relatório: ${await responseUpload.text()}`);
+            }
+        }
+
         const respostaProcesso = await Auth.fetchWithAuth(`${api_processos_url}/${processoId}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
@@ -118,24 +138,6 @@ form.addEventListener('submit', async function (event) {
         if (!respostaProcesso.ok) {
             const erroData = await respostaProcesso.text();
             throw new Error(`Erro ao atualizar os dados do processo: ${erroData}`);
-        }
-
-        const relatorioFile = document.getElementById('relatorio').files[0];
-
-        if (relatorioFile) {
-            const formDataArquivo = new FormData();
-            formDataArquivo.append('arquivo', relatorioFile);
-            formDataArquivo.append('proprietarioId', processoId);
-            formDataArquivo.append('tipo', 'PROCESSO');
-
-            const respostaRelatorio = await Auth.fetchWithAuth(api_relatorios_url, {
-                method: 'POST',
-                body: formDataArquivo
-            });
-
-            if (!respostaRelatorio.ok) {
-                throw new Error('Processo atualizado, mas falha ao enviar o novo relatório.');
-            }
         }
 
         alert('Processo atualizado com sucesso!');

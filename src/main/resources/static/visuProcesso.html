@@ -86,21 +86,26 @@
         </div>
 
         <div class="mb-3">
-          <label for="relatorio" class="form-label">Relatório</label>
-          <input class="form-control" type="file" id="relatorio" name="relatorio"
-            aria-label="Relatório anexado" />
-        </div>
-
-        <div class="mb-3">
           <label for="descricao" class="form-label">Descrição</label>
           <textarea class="form-control" id="descricao" name="descricao" rows="4"
             aria-label="Descrição detalhada do processo"></textarea>
         </div>
       </fieldset>
 
+      <div class="mb-3">
+        <label class="form-label">Relatório</label>
+        <div>
+          <a id="linkRelatorio" href="#" target="_blank" class="btn btn-outline-secondary" role="button"
+            aria-label="Visualizar relatório anexado">
+            Visualizar Relatório
+          </a>
+        </div>
+      </div>
+
       <div class="d-flex justify-content-between">
         <button type="submit" class="btn btn-primary" disabled aria-disabled="true" tabindex="-1">Enviar</button>
-        <a href="processo.html" class="btn btn-danger" role="button" aria-label="Voltar para a página de processos">Voltar</a>
+        <a href="processo.html" class="btn btn-danger" role="button"
+          aria-label="Voltar para a página de processos">Voltar</a>
       </div>
     </form>
   </main>

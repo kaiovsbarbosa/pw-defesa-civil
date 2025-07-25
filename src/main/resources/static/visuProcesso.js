@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', async function () {
     const api_processos_url = 'http://localhost:8080/api/processos';
+    const bucket_url = 'https://8d6807fabce5.ngrok-free.app/view/';
 
     const selectCriador = document.getElementById('criador');
     const selectEquipe = document.getElementById('equipe');
@@ -37,6 +38,43 @@ document.addEventListener('DOMContentLoaded', async function () {
         document.getElementById('localizacao').value = processo.localizacao || '';
         document.getElementById('equipamento').value = processo.equipamento || '';
         document.getElementById('descricao').value = processo.descricao || '';
+
+        if (processo.arquivo) {
+            const link = `${bucket_url}${encodeURIComponent(processo.arquivo)}`;
+            const linkRelatorio = document.getElementById('linkRelatorio');
+
+            try {
+                const respostaLink = await fetch(link, {
+                    headers: {
+                        'ngrok-skip-browser-warning': 'true'
+                    }
+                });
+                if (!respostaLink.ok) throw new Error('Erro ao buscar o link do relatório');
+
+                const { url } = await respostaLink.json();
+
+                if (url && url.startsWith('http')) {
+                    linkRelatorio.href = url;
+                    linkRelatorio.target = '_blank';
+                    linkRelatorio.rel = 'noopener noreferrer';
+                    linkRelatorio.classList.remove('disabled');
+                    linkRelatorio.innerText = 'Visualizar Relatório';
+                } else {
+                    throw new Error('URL inválida');
+                }
+            } catch (e) {
+                console.error('Erro ao carregar o link do relatório:', e);
+                linkRelatorio.href = '#';
+                linkRelatorio.classList.add('disabled');
+                linkRelatorio.innerText = 'Relatório indisponível';
+            }
+        } else {
+            const linkRelatorio = document.getElementById('linkRelatorio');
+            linkRelatorio.href = '#';
+            linkRelatorio.classList.add('disabled');
+            linkRelatorio.innerText = 'Relatório não disponível';
+        }
+
 
         if (processo.data) {
             document.getElementById('data').value = processo.data.split('T')[0];
